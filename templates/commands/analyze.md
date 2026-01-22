@@ -123,7 +123,26 @@ Use this heuristic to prioritize findings:
 - **MEDIUM**: Terminology drift, missing non-functional task coverage, underspecified edge case
 - **LOW**: Style/wording improvements, minor redundancy not affecting execution order
 
-### 6. Produce Compact Analysis Report
+### 6. Scan Checklists
+
+If `FEATURE_DIR/checklists/` directory exists, scan all checklist files:
+
+1. **List all `.md` files** in the checklists directory
+2. **For each checklist file**, count:
+   - Total items: All lines matching `- [ ]` or `- [X]` or `- [x]`
+   - Completed items: Lines matching `- [X]` or `- [x]`
+   - Incomplete items: Lines matching `- [ ]`
+
+3. **Determine checklist status**:
+   - ✓ = All items complete (100%)
+   - ⚠ = Has incomplete items (report count)
+
+4. **Add to findings** if incomplete items exist:
+   - Severity: MEDIUM (incomplete checklist items don't block, but warrant review)
+   - Each incomplete checklist gets one finding entry
+   - Include count of incomplete items
+
+### 7. Produce Compact Analysis Report
 
 Output a Markdown report (no file writes) with the following structure:
 
@@ -144,6 +163,16 @@ Output a Markdown report (no file writes) with the following structure:
 
 **Unmapped Tasks:** (if any)
 
+**Checklist Status:**
+
+| Checklist | Total | Complete | Incomplete | Status |
+|-----------|-------|----------|------------|--------|
+| requirements.md | 12 | 12 | 0 | ✓ |
+| api.md | 10 | 8 | 2 | ⚠ |
+| security.md | 8 | 5 | 3 | ⚠ |
+
+(If no checklists directory exists, report: "No checklists found. Consider running `/speckit.checklist` to validate requirements quality.")
+
 **Metrics:**
 
 - Total Requirements
@@ -152,8 +181,9 @@ Output a Markdown report (no file writes) with the following structure:
 - Ambiguity Count
 - Duplication Count
 - Critical Issues Count
+- Checklist Completion % (if checklists exist)
 
-### 7. Provide Next Actions
+### 8. Provide Next Actions
 
 At end of report, output a concise Next Actions block:
 
@@ -161,7 +191,7 @@ At end of report, output a concise Next Actions block:
 - If only LOW/MEDIUM: User may proceed, but provide improvement suggestions
 - Provide explicit command suggestions: e.g., "Run /speckit.specify with refinement", "Run /speckit.plan to adjust architecture", "Manually edit tasks.md to add coverage for 'performance-metrics'"
 
-### 8. Offer Remediation
+### 9. Offer Remediation
 
 Ask the user: "Would you like me to suggest concrete remediation edits for the top N issues?" (Do NOT apply them automatically.)
 

@@ -41,6 +41,38 @@ You **MUST** consider the user input before proceeding (if not empty).
 
 4. **Stop and report**: Command ends after Phase 2 planning. Report branch, IMPL_PLAN path, and generated artifacts.
 
+5. **Proactive Handoff with Auto-Continue Option**: After successful completion, offer to continue:
+
+   ```text
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   ✅ Planning Complete
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   
+   Generated artifacts:
+   - plan.md ✓
+   - data-model.md [✓ if created]
+   - contracts/ [✓ if created]
+   - research.md [✓ if created]
+   
+   Ready to generate tasks! Continue automatically?
+   
+   Options:
+   | Option | Action |
+   |--------|--------|
+   | Y / Yes / Continue | Auto-run /speckit.tasks now |
+   | N / No / Wait | Stop here, I'll run tasks later |
+   | Checklist | Create a quality checklist first |
+   
+   Your choice (default: Continue): _[Wait for user input, default to Continue after 5 sec or Enter]_
+   ```
+
+   - **If user says Yes/Continue/Y or presses Enter**: Auto-run `/speckit.tasks`
+   - **If user says No/Wait/N**: End with summary and reminder
+   - **If user says Checklist**: Prompt for checklist domain, run `/speckit.checklist`, then offer tasks
+
+   **Auto-continue flag**: If invoked with `--auto` flag in arguments (e.g., from `/speckit.build`), 
+   skip the prompt and automatically continue to tasks.
+
 ## Phases
 
 ### Phase 0: Outline & Research

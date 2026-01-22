@@ -195,6 +195,36 @@ Given that feature description, do this:
 
 7. Report completion with branch name, spec file path, checklist results, and readiness for the next phase (`/speckit.clarify` or `/speckit.plan`).
 
+8. **Proactive Handoff**: After successful completion, present next step options:
+
+   ```text
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   ✅ Specification Complete
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   
+   Branch: [BRANCH_NAME]
+   Spec: [SPEC_FILE path]
+   
+   Ready for planning! What would you like to do next?
+   
+   Options:
+   | Option | Command | Description |
+   |--------|---------|-------------|
+   | A | /speckit.plan | Create implementation plan (describe your tech stack) |
+   | B | /speckit.clarify | Ask more clarifying questions first |
+   | C | Done for now | I'll continue later |
+   
+   Quick start: Just describe your tech stack (e.g., "Python with FastAPI and PostgreSQL")
+   and I'll run /speckit.plan automatically.
+   
+   Your choice or tech stack: _[Wait for user input]_
+   ```
+
+   - **If user provides tech stack directly**: Auto-run `/speckit.plan` with provided stack
+   - **If user selects A**: Prompt for tech stack, then run `/speckit.plan`
+   - **If user selects B**: Run `/speckit.clarify`
+   - **If user selects C or no response**: End with summary
+
 **NOTE:** The script creates and checks out the new branch and initializes the spec file before writing.
 
 ## General Guidelines

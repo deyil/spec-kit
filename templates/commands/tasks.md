@@ -63,6 +63,44 @@ You **MUST** consider the user input before proceeding (if not empty).
    - Suggested MVP scope (typically just User Story 1)
    - Format validation: Confirm ALL tasks follow the checklist format (checkbox, ID, labels, file paths)
 
+6. **Proactive Handoff**: After successful completion, offer next steps:
+
+   ```text
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   ✅ Tasks Generated
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   
+   Tasks: [FEATURE_DIR]/tasks.md
+   
+   Summary:
+   - Total tasks: [Count]
+   - Phases: [Count]
+   - Parallel opportunities: [Count] tasks marked [P]
+   - Suggested MVP: [First user story name]
+   
+   What would you like to do next?
+   
+   Options:
+   | Option | Command | Description |
+   |--------|---------|-------------|
+   | A | /speckit.analyze | Run consistency check (recommended) |
+   | B | /speckit.checklist | Create quality checklists |
+   | C | /speckit.implement | Start implementation now |
+   | D | Done for now | I'll continue later |
+   
+   Recommendation: Run /speckit.analyze first to catch any issues before implementing.
+   
+   Your choice: _[Wait for user input]_
+   ```
+
+   - **If user selects A**: Run `/speckit.analyze`
+   - **If user selects B**: Prompt for checklist domain, run `/speckit.checklist`
+   - **If user selects C**: Run `/speckit.implement`
+   - **If user selects D or no response**: End with summary
+
+   **Auto-continue flag**: If invoked with `--auto` flag (e.g., from `/speckit.build`), 
+   skip the prompt and continue to the next step in the workflow.
+
 Context for task generation: {ARGS}
 
 The tasks.md should be immediately executable - each task must be specific enough that an LLM can complete it without additional context.
