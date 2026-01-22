@@ -138,10 +138,20 @@ Before making any assumptions, scan these context sources in priority order:
    - Build a context map with findings from each source
    - Record source for each finding (for traceability)
 
-2. **Auto-detect tech stack** (if not provided):
-   - Check existing config files
-   - Match against previous feature specs
-   - Use project conventions
+2. **Auto-detect or determine tech stack** (if not provided):
+   - Check existing config files (`package.json`, `pyproject.toml`, `go.mod`, etc.)
+   - Match against previous feature specs and plans
+   - Use project conventions from codebase patterns
+   
+   **If auto-detection fails**, analyze and decide:
+   - Review feature description for technical requirements
+   - Consider: data storage needs, API vs UI focus, real-time requirements, scale expectations
+   - Select appropriate stack based on:
+     - Feature complexity (simple → lightweight stack, complex → robust framework)
+     - Data requirements (relational → SQL, document-based → NoSQL, caching → Redis)
+     - UI needs (SPA → React/Vue, SSR → Next.js/Nuxt, simple → vanilla)
+     - API style (REST, GraphQL, real-time → WebSocket)
+   - Document the chosen stack in assumptions with "Agent-determined" source
 
 3. **Build assumptions inventory**:
    ```text

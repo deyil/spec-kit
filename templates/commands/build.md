@@ -113,6 +113,8 @@ You **MUST** consider the user input before proceeding (if not empty).
    ```
 
    **If tech stack not provided:**
+   
+   **Step 1: Ask user for tech stack**
    ```text
    🛠️ What technologies will you use?
    
@@ -121,10 +123,46 @@ You **MUST** consider the user input before proceeding (if not empty).
    - "TypeScript, Next.js, Prisma, Vercel"
    - "Go with Chi router and MongoDB"
    
-   Leave blank to auto-detect from existing project structure.
+   Leave blank to auto-detect or let me recommend based on your feature.
    
-   Tech stack: _[Wait for user input, or proceed with auto-detection]_
+   Tech stack: _[Wait for user input]_
    ```
+   
+   **Step 2: If user provides no input, attempt auto-detection**
+   - Check `package.json`, `pyproject.toml`, `go.mod`, `Cargo.toml`, etc.
+   - Scan existing directory structure for patterns
+   - Review existing specs for established patterns
+   - If tech stack detected, proceed with it
+   
+   **Step 3: If auto-detection fails, analyze and recommend**
+   - Review the feature description for technical implications
+   - Consider complexity, scalability needs, and common patterns
+   - Factor in any constraints mentioned by the user
+   - Present a recommended stack with brief rationale:
+   
+   ```text
+   🛠️ Tech Stack Recommendation
+   
+   I couldn't detect an existing tech stack. Based on your feature requirements, I recommend:
+   
+   **[Recommended Stack]** (e.g., Python with FastAPI and PostgreSQL)
+   
+   Rationale:
+   - [Reason 1 based on feature needs]
+   - [Reason 2 based on complexity/scale]
+   - [Reason 3 based on ecosystem/tooling]
+   
+   Options:
+   | Option | Action |
+   |--------|--------|
+   | Accept | Use recommended stack |
+   | Modify | Specify different technologies |
+   
+   Your choice: _[Wait for user input, default to Accept]_
+   ```
+   
+   - If user accepts or doesn't respond: proceed with recommended stack
+   - If user provides alternative: use their specified stack
 
    **Optional constraints prompt:**
    ```text
@@ -138,11 +176,6 @@ You **MUST** consider the user input before proceeding (if not empty).
    
    Constraints (press Enter to skip): _[Wait for user input]_
    ```
-
-3. **Auto-detect project context** (if tech stack not specified):
-   - Check `package.json`, `pyproject.toml`, `go.mod`, `Cargo.toml`, etc.
-   - Scan existing directory structure for patterns
-   - Review existing specs for established patterns
 
 ### Phase 2: Constitution Check
 
