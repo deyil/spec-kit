@@ -100,7 +100,21 @@ Use the **`/speckit.constitution`** command to create your project's governing p
 /speckit.constitution Create principles focused on code quality, testing standards, user experience consistency, and performance requirements
 ```
 
-### 3. Create the spec
+### 3. Start building (choose your path)
+
+**Option A: Quick Path (2-4 min)** - For clear requirements:
+```bash
+/speckit.quick Build an application that can help me organize my photos in separate photo albums using Vite with vanilla HTML, CSS, and JavaScript
+```
+
+**Option B: Guided Wizard (10-15 min)** - For thorough planning:
+```bash
+/speckit.build Build an application that can help me organize my photos in separate photo albums
+```
+
+**Option C: Step-by-Step** - For maximum control, use individual commands:
+
+### 4. Create the spec (if using step-by-step)
 
 Use the **`/speckit.specify`** command to describe what you want to build. Focus on the **what** and **why**, not the tech stack.
 
@@ -108,7 +122,7 @@ Use the **`/speckit.specify`** command to describe what you want to build. Focus
 /speckit.specify Build an application that can help me organize my photos in separate photo albums. Albums are grouped by date and can be re-organized by dragging and dropping on the main page. Albums are never in other nested albums. Within each album, photos are previewed in a tile-like interface.
 ```
 
-### 4. Create a technical implementation plan
+### 5. Create a technical implementation plan
 
 Use the **`/speckit.plan`** command to provide your tech stack and architecture choices.
 
@@ -116,7 +130,7 @@ Use the **`/speckit.plan`** command to provide your tech stack and architecture 
 /speckit.plan The application uses Vite with minimal number of libraries. Use vanilla HTML, CSS, and JavaScript as much as possible. Images are not uploaded anywhere and metadata is stored in a local SQLite database.
 ```
 
-### 5. Break down into tasks
+### 6. Break down into tasks
 
 Use **`/speckit.tasks`** to create an actionable task list from your implementation plan.
 
@@ -124,7 +138,7 @@ Use **`/speckit.tasks`** to create an actionable task list from your implementat
 /speckit.tasks
 ```
 
-### 6. Execute implementation
+### 7. Execute implementation
 
 Use **`/speckit.implement`** to execute all tasks and build your feature according to the plan.
 
@@ -245,6 +259,20 @@ specify check
 ### Available Slash Commands
 
 After running `specify init`, your AI coding agent will have access to these slash commands for structured development:
+
+#### Quick Start Commands (New!)
+
+Streamlined commands for faster workflow:
+
+| Command           | Description                                                                                  |
+| ----------------- | -------------------------------------------------------------------------------------------- |
+| `/speckit.build`  | **Guided wizard** - Orchestrates the complete workflow with checkpoints (10-15 min)          |
+| `/speckit.quick`  | **Fast path** - Context-aware generation with minimal interaction (2-4 min)                  |
+| `/speckit.status` | **Progress tracker** - Shows current workflow progress and next steps                        |
+
+**When to use which:**
+- `/speckit.build` - New projects, complex features, stakeholder review needed
+- `/speckit.quick` - Clear requirements, prototypes, experienced users following established patterns
 
 #### Core Commands
 
