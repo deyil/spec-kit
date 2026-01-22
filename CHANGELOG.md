@@ -7,6 +7,21 @@ All notable changes to the Specify CLI and templates are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.0.23] - 2026-01-22
+
+### Added
+
+- **New `/speckit.build` command**: Unified guided wizard that orchestrates the complete Spec-Driven Development workflow with checkpoints for user review at each phase. Ideal for new projects, complex features, and stakeholder review (10-15 min workflow).
+- **New `/speckit.quick` command**: Fast-path command for clear requirements that generates all artifacts with minimal interaction. Context-aware assumptions reduce questions to 0-2 critical clarifications only (2-4 min workflow).
+- **New `/speckit.status` command**: Shows workflow progress and next steps for the current feature. Displays artifact completion, checklist status, and task progress with clear guidance on what to do next.
+- **Enhanced `/speckit.analyze` command**: Now scans checklist files in `FEATURE_DIR/checklists/` directory and reports completion status for each checklist. Incomplete checklist items are surfaced as MEDIUM severity findings.
+- **Improved command handoffs**: All core commands (`/speckit.specify`, `/speckit.plan`, `/speckit.tasks`) now offer proactive next-step suggestions after completion with auto-continue options for streamlined workflow.
+
+### Changed
+
+- Updated README with Quick Start Commands section highlighting the new `/speckit.build`, `/speckit.quick`, and `/speckit.status` commands.
+- Get Started guide now presents three paths: Quick Path, Guided Wizard, and Step-by-Step for maximum flexibility.
+
 ## [0.0.22] - 2025-11-07
 
 - Support for VS Code/Copilot agents, and moving away from prompts to proper agents with hand-offs.
