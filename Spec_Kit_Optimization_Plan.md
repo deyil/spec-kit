@@ -166,21 +166,21 @@ After review, these commands serve **distinct purposes** but should integrate be
 * User specifies domain (UX, security, API, performance, etc.)
 * Creates separate checklist files: `checklists/ux.md`, `checklists/security.md`
 * Run anytime to validate specific requirement areas
-**Enhancement: Analyze should scan checklists**
+**Enhancement: Analyze should perform checklist quality analysis**
 Currently `/speckit.analyze` ignores `checklists/*.md`. Add:
-* Scan all files in `FEATURE_DIR/checklists/`
-* Count unchecked items `- [ ]` per checklist
-* Report as warnings if unresolved items exist
-* Example output:
-```warp-runnable-command
-Checklist Status:
-  ✓ checklists/api.md - 12/12 complete
-  ⚠ checklists/ux.md - 8/10 complete (2 unresolved)
-  ⚠ checklists/security.md - 5/8 complete (3 unresolved)
-```
+* Load all files in `FEATURE_DIR/checklists/`
+* Perform quality analysis on checklist items:
+  - Ambiguity detection (vague criteria without measurement)
+  - Testability check (objectively verifiable)
+  - Cross-artifact alignment (validates actual spec requirements)
+  - Duplication detection (same validation across multiple checklists)
+  - Orphan detection (validates undefined features/components)
+* Integrate findings into main analysis report with severity levels
+* Example findings:
+  - `CQ1 | Checklist Quality | HIGH | checklists/security.md:L15 | Validation item "system is secure" is untestable | Add measurable criteria`
 **Files to modify:**
-* `templates/commands/analyze.md` - Add checklist scanning logic
-**No merge needed** - they complement each other, analyze now surfaces checklist status.
+* `templates/commands/analyze.md` - Add checklist quality analysis logic
+**No merge needed** - they complement each other, analyze now performs checklist quality analysis.
 ### 5. Improve Command Handoffs (Medium Priority)
 Enhance the existing handoff system to be more proactive:
 **Changes:**

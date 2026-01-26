@@ -123,24 +123,34 @@ Use this heuristic to prioritize findings:
 - **MEDIUM**: Terminology drift, missing non-functional task coverage, underspecified edge case
 - **LOW**: Style/wording improvements, minor redundancy not affecting execution order
 
-### 6. Scan Checklists
+### 6. Analyze Checklists (Quality & Consistency)
 
-If `FEATURE_DIR/checklists/` directory exists, scan all checklist files:
+If `FEATURE_DIR/checklists/` directory exists, perform quality analysis:
 
-1. **List all `.md` files** in the checklists directory
-2. **For each checklist file**, count:
-   - Total items: All lines matching `- [ ]` or `- [X]` or `- [x]`
-   - Completed items: Lines matching `- [X]` or `- [x]`
-   - Incomplete items: Lines matching `- [ ]`
+1. **Load all checklist files** from `FEATURE_DIR/checklists/`
 
-3. **Determine checklist status**:
-   - ✓ = All items complete (100%)
-   - ⚠ = Has incomplete items (report count)
+2. **For each checklist item**, analyze:
+   - **Requirement mapping**: Does it validate a requirement from spec.md?
+   - **Ambiguity**: Contains vague criteria (fast, good, secure) without measurement?
+   - **Testability**: Can this item be objectively verified?
+   - **Duplication**: Same validation exists in other checklists?
+   - **Orphan detection**: References components/features not in spec/plan?
 
-4. **Add to findings** if incomplete items exist:
-   - Severity: MEDIUM (incomplete checklist items don't block, but warrant review)
-   - Each incomplete checklist gets one finding entry
-   - Include count of incomplete items
+3. **Cross-artifact alignment checks**:
+   - Compare acceptance criteria from spec user stories with checklist validation items
+   - Identify requirements marked MUST/CRITICAL lacking checklist validation
+   - Flag non-functional requirements (security, performance) without quality gates
+
+4. **Add findings** using same severity model as other detection passes:
+   - **CRITICAL**: Security/data integrity validation missing for critical requirement
+   - **HIGH**: Ambiguous or untestable validation item, duplicate validation across checklists
+   - **MEDIUM**: Minor alignment issues, checklist validates undefined feature
+   - **LOW**: Wording improvements, optional validation suggestions
+
+5. **Integrate into findings table** (not separate checklist status table):
+   - Category: "Checklist Quality"
+   - Use standard ID/Severity/Location/Summary/Recommendation format
+   - Example: `CQ1 | Checklist Quality | HIGH | checklists/security.md:L15 | Validation item "system is secure" is untestable | Add measurable criteria (e.g., "all endpoints require authentication")`
 
 ### 7. Produce Compact Analysis Report
 
@@ -163,15 +173,9 @@ Output a Markdown report (no file writes) with the following structure:
 
 **Unmapped Tasks:** (if any)
 
-**Checklist Status:**
+**Checklist Analysis:** (if checklists exist)
 
-| Checklist | Total | Complete | Incomplete | Status |
-|-----------|-------|----------|------------|--------|
-| requirements.md | 12 | 12 | 0 | ✓ |
-| api.md | 10 | 8 | 2 | ⚠ |
-| security.md | 8 | 5 | 3 | ⚠ |
-
-(If no checklists directory exists, report: "No checklists found. Consider running `/speckit.checklist` to validate requirements quality.")
+(Checklist quality findings are integrated into the main findings table above with Category = "Checklist Quality". If no checklists directory exists, report: "No checklists found. Consider running `/speckit.checklist` to validate requirements quality.")
 
 **Metrics:**
 
@@ -181,7 +185,7 @@ Output a Markdown report (no file writes) with the following structure:
 - Ambiguity Count
 - Duplication Count
 - Critical Issues Count
-- Checklist Completion % (if checklists exist)
+- Checklist Quality Issues Count (if checklists exist)
 
 ### 8. Provide Next Actions
 

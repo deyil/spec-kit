@@ -14,7 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **New `/speckit.build` command**: Unified guided wizard that orchestrates the complete Spec-Driven Development workflow with checkpoints for user review at each phase. Ideal for new projects, complex features, and stakeholder review (10-15 min workflow).
 - **New `/speckit.quick` command**: Fast-path command for clear requirements that generates all artifacts with minimal interaction. Context-aware assumptions reduce questions to 0-2 critical clarifications only (2-4 min workflow).
 - **New `/speckit.status` command**: Shows workflow progress and next steps for the current feature. Displays artifact completion, checklist status, and task progress with clear guidance on what to do next.
-- **Enhanced `/speckit.analyze` command**: Now scans checklist files in `FEATURE_DIR/checklists/` directory and reports completion status for each checklist. Incomplete checklist items are surfaced as MEDIUM severity findings.
+- **Enhanced `/speckit.analyze` command**: Now performs quality analysis on checklist files in `FEATURE_DIR/checklists/` directory, checking for ambiguity, testability, cross-artifact alignment, and duplication. Checklist quality issues are integrated into the main findings table with context-aware severity levels.
 - **Improved command handoffs**: All core commands (`/speckit.specify`, `/speckit.plan`, `/speckit.tasks`) now offer proactive next-step suggestions after completion with auto-continue options for streamlined workflow.
 
 ### Changed

@@ -1,23 +1,22 @@
-````markdown
 ---
 description: Fast path for clear requirements - combines specify, plan, tasks, checklist, and analyze in one context-aware command.
 handoffs: 
-  - label: Start Implementation
-    agent: speckit.implement
-    prompt: Begin implementing the tasks
-    send: true
-  - label: View Status
-    agent: speckit.status
-    prompt: Show current workflow progress
-  - label: Full Build Mode
-    agent: speckit.build
-    prompt: Run the full guided workflow
+   - label: Start Implementation
+      agent: speckit.implement
+      prompt: Begin implementing the tasks
+      send: true
+   - label: View Status
+      agent: speckit.status
+      prompt: Show current workflow progress
+   - label: Full Build Mode
+      agent: speckit.build
+      prompt: Run the full guided workflow
 scripts:
-  sh: scripts/bash/create-new-feature.sh --json "{ARGS}"
-  ps: scripts/powershell/create-new-feature.ps1 -Json "{ARGS}"
+   sh: scripts/bash/create-new-feature.sh --json "{ARGS}"
+   ps: scripts/powershell/create-new-feature.ps1 -Json "{ARGS}"
 agent_scripts:
-  sh: scripts/bash/update-agent-context.sh __AGENT__
-  ps: scripts/powershell/update-agent-context.ps1 -AgentType __AGENT__
+   sh: scripts/bash/update-agent-context.sh __AGENT__
+   ps: scripts/powershell/update-agent-context.ps1 -AgentType __AGENT__
 ---
 
 ## User Input
@@ -130,7 +129,8 @@ Before making any assumptions, scan these context sources in priority order:
    - Generate short name from description (2-4 words)
    - Check for existing branches (remote, local, specs directories)
    - Run `{SCRIPT}` with calculated number and short-name
-   - Parse JSON output for BRANCH_NAME, SPEC_FILE, FEATURE_DIR
+   - Parse JSON output for BRANCH_NAME and SPEC_FILE (and FEATURE_NUM if useful)
+   - Derive FEATURE_DIR from SPEC_FILE (its parent directory)
 
 ### Step 2: Context Scan
 
@@ -229,7 +229,8 @@ Before making any assumptions, scan these context sources in priority order:
 2. **Generate checklists** using fast-mode (no scoping questions):
    - Use context to determine focus areas
    - Apply reasonable defaults for depth/audience
-   - Create files in `FEATURE_DIR/checklists/`
+   - If using `/speckit.checklist`, pre-answer any scoping questions from context and proceed without pausing.
+   - Each domain creates or appends `FEATURE_DIR/checklists/<domain>.md`
 
 ### Step 7: Critical Clarification (If Needed)
 
@@ -280,9 +281,10 @@ Your choice: _[Wait for user input]_
    - Coverage gap analysis
    - Inconsistency detection
 
-2. **Scan checklists**:
-   - Count checked vs unchecked items
-   - Report status per checklist
+2. **Analyze checklists**:
+   - Perform quality analysis (ambiguity, alignment, testability)
+   - Check cross-artifact consistency with spec/plan
+   - Integrate findings into analysis report
 
 3. **Generate compact analysis report**
 
@@ -311,7 +313,7 @@ Time: [Duration]
 📊 Analysis Summary:
 - Coverage: [Percentage]% of requirements have tasks
 - Issues: [Count] critical, [Count] high, [Count] medium
-- Checklists: [Status summary]
+- Checklist quality issues: [Count]
 
 📝 Assumptions Made: [Count]
 (See spec.md "Assumptions" section for full list with sources)
@@ -396,5 +398,3 @@ Every assumption MUST be documented with its source:
 ```text
 /speckit.quick Add password reset flow (similar to existing email verification)
 ```
-
-````

@@ -1,20 +1,19 @@
-````markdown
 ---
 description: Unified guided wizard that orchestrates the complete spec-driven workflow from description to ready-to-implement project.
 handoffs: 
-  - label: Start Implementation
-    agent: speckit.implement
-    prompt: Begin implementing the tasks
-    send: true
-  - label: View Status
-    agent: speckit.status
-    prompt: Show current workflow progress
+   - label: Start Implementation
+      agent: speckit.implement
+      prompt: Begin implementing the tasks
+      send: true
+   - label: View Status
+      agent: speckit.status
+      prompt: Show current workflow progress
 scripts:
-  sh: scripts/bash/create-new-feature.sh --json "{ARGS}"
-  ps: scripts/powershell/create-new-feature.ps1 -Json "{ARGS}"
+   sh: scripts/bash/create-new-feature.sh --json "{ARGS}"
+   ps: scripts/powershell/create-new-feature.ps1 -Json "{ARGS}"
 agent_scripts:
-  sh: scripts/bash/update-agent-context.sh __AGENT__
-  ps: scripts/powershell/update-agent-context.ps1 -AgentType __AGENT__
+   sh: scripts/bash/update-agent-context.sh __AGENT__
+   ps: scripts/powershell/update-agent-context.ps1 -AgentType __AGENT__
 ---
 
 ## User Input
@@ -78,7 +77,7 @@ You **MUST** consider the user input before proceeding (if not empty).
 │  7. ANALYSIS PHASE (/speckit.analyze logic)                             │
 │     ├── Cross-artifact consistency check                                │
 │     ├── Coverage gap analysis                                           │
-│     ├── Checklist status scan                                           │
+│     ├── Checklist quality analysis                                      │
 │     └── Report with recommendations                                     │
 │                                                                         │
 │  8. COMPLETION                                                          │
@@ -342,7 +341,7 @@ Execute the `/speckit.tasks` workflow:
 
 ### Phase 6: Checklist Generation (Fast Mode)
 
-Generate quality validation checklists with minimal interaction:
+Execute the `/speckit.checklist` workflow in fast mode with minimal interaction:
 
 1. **Auto-suggest checklist domain(s)**:
    - Analyze generated artifacts for domain indicators
@@ -373,11 +372,13 @@ Generate quality validation checklists with minimal interaction:
    Your choice: _[Wait for user input]_
    ```
 
-3. **Generate checklist files**:
-   - Create `FEATURE_DIR/checklists/` directory
-   - Generate `requirements.md` (always)
-   - Generate selected additional checklists
-   - Follow checklist template format
+3. **Run `/speckit.checklist` once per selected checklist**:
+   - Always generate the baseline requirements-quality checklist first (creates `FEATURE_DIR/checklists/requirements.md`).
+   - For each additional selection (api/ux/security/performance), run `/speckit.checklist` again for that domain (creates or appends `FEATURE_DIR/checklists/<domain>.md`).
+   - Keep the checklist command in **fast-mode**:
+     - Prefer defaults for depth/audience/focus areas when unambiguous
+     - Do not ask more than **2** scoping questions per run
+   - Each invocation must follow the checklist template format.
 
 ### Phase 7: Analysis Phase
 
@@ -392,15 +393,16 @@ Execute the `/speckit.analyze` workflow:
    - Coverage gap analysis
    - Inconsistency detection
 
-3. **Scan checklists** (enhanced analyze feature):
+3. **Analyze checklists** (enhanced analyze feature):
    - Read all files in `FEATURE_DIR/checklists/`
-   - Count checked vs unchecked items per file
-   - Report status for each checklist
+   - Perform quality analysis (ambiguity, alignment, testability)
+   - Check cross-artifact consistency with spec/plan
+   - Integrate findings into main analysis report
 
 4. **Generate analysis report**:
    - Findings table with severity
    - Coverage summary
-   - Checklist status
+   - Checklist quality findings
    - Recommendations
 
 5. **Present analysis summary** (no checkpoint - informational):
@@ -419,11 +421,11 @@ Execute the `/speckit.analyze` workflow:
    - Requirements with tasks: [Percentage]%
    - Unmapped tasks: [Count]
    
-   Checklist Status:
-   | Checklist | Total | Complete | Status |
-   |-----------|-------|----------|--------|
-   | requirements.md | [N] | [N] | ✓ PASS / ⚠ [N] incomplete |
-   | [others...] | ... | ... | ... |
+   Checklist Quality:
+   - Total validation items analyzed: [Count]
+   - Quality issues found: [Count]
+   - Critical checklist gaps: [Count]
+   (See full analysis report for details)
    
    [If critical issues exist, list them and recommend resolution]
    ```
@@ -453,7 +455,7 @@ Execute the `/speckit.analyze` workflow:
    
    📊 Quality Summary:
    - Analysis issues: [Count] critical, [Count] high, [Count] medium
-   - Checklist status: [All passed / N items remaining]
+   - Checklist quality issues: [Count]
    - Coverage: [Percentage]% of requirements have tasks
    
    🚀 Ready for Implementation!
@@ -486,5 +488,3 @@ Execute the `/speckit.analyze` workflow:
 - Review each checkpoint carefully - changes are easier before implementation
 - The analysis phase helps catch issues early - address critical findings
 - Checklists are optional but valuable for complex features
-
-````

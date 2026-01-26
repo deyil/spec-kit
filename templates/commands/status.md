@@ -1,4 +1,3 @@
-````markdown
 ---
 description: Show workflow progress and next steps for the current feature.
 scripts:
@@ -301,5 +300,3 @@ Recommended Actions:
 ```text
 /speckit.status 2
 ```
-
-````
