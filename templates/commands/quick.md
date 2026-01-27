@@ -44,6 +44,16 @@ You **MUST** consider the user input before proceeding (if not empty).
 
 ## Workflow Overview
 
+## Orchestration Summary
+
+This command MUST orchestrate the workflow by running these commands in order (with minimal interaction):
+
+1. `/speckit.specify <description>`
+2. `/speckit.plan <tech stack>`
+3. `/speckit.tasks`
+4. `/speckit.checklist` (auto-selected domains)
+5. `/speckit.analyze`
+
 ```text
 ┌─────────────────────────────────────────────────────────────────────────┐
 │                        /speckit.quick Workflow                          │
@@ -106,6 +116,14 @@ Before making any assumptions, scan these context sources in priority order:
 
 ## Execution Steps
 
+## Delegation Rule (Bullet-Proofing)
+
+This command is an **orchestrator**.
+
+- You MUST generate artifacts by explicitly **running the canonical `/speckit.*` commands** whose source-of-truth templates live in `templates/commands/`.
+- Do **not** re-implement or paraphrase those commands’ internal logic inside `/speckit.quick`.
+- Quick-mode behavior is enforced by how you answer prompts (minimal interaction, context-derived assumptions), not by duplicating logic.
+
 ### Step 1: Parse Input and Setup
 
 1. **Parse `$ARGUMENTS`**:
@@ -131,6 +149,11 @@ Before making any assumptions, scan these context sources in priority order:
    - Run `{SCRIPT}` with calculated number and short-name
    - Parse JSON output for BRANCH_NAME and SPEC_FILE (and FEATURE_NUM if useful)
    - Derive FEATURE_DIR from SPEC_FILE (its parent directory)
+
+4. **Run the canonical spec command**:
+   - Run: `/speckit.specify <feature description>`
+   - Provide the description parsed from `$ARGUMENTS`.
+   - If `/speckit.specify` asks optional questions, answer using project context; ask the user only if it’s a showstopper (counts toward the 0–2 critical question budget).
 
 ### Step 2: Context Scan
 
@@ -166,56 +189,28 @@ Before making any assumptions, scan these context sources in priority order:
 
 ### Step 3: Generate Specification
 
-1. **Load `templates/spec-template.md`**
-2. **Fill all sections** using:
-   - Feature description from input
-   - Context findings for informed defaults
-   - Constitution constraints where applicable
+This step MUST be performed by running the canonical `/speckit.specify` command (see Step 1.4).
 
-3. **Document all assumptions** in a dedicated section:
-   ```markdown
-   ## Assumptions (derived from project context)
-   
-   | Assumption | Source | Confidence |
-   |------------|--------|------------|
-   | OAuth2 auth flow | constitution.md | High |
-   | SendGrid for emails | feature 001-notifications | High |
-   | 1-hour token expiry | existing auth config | High |
-   | RESTful API patterns | existing contracts/ | High |
-   | Primary button for submit | design system | Medium |
-   ```
-
-4. **Identify critical ambiguities** (see Critical vs Non-Critical below):
-   - Only flag items that could be showstoppers
-   - Maximum 2 clarification questions
-
-5. **Write spec.md** to SPEC_FILE path
+Quick-mode constraints while running `/speckit.specify`:
+- Document assumptions with sources (prefer constitution/spec history/config/codebase).
+- Ask the user **0–2 questions max**, only for showstoppers.
 
 ### Step 4: Generate Plan
 
-1. **Load spec.md and constitution.md**
-2. **Generate plan.md** with:
-   - Technical architecture
-   - Tech stack (from input or auto-detected)
-   - File structure
-   - Phases
+Run the canonical command: `/speckit.plan <tech stack>`
 
-3. **Generate supporting artifacts** (as needed):
-   - `data-model.md` - If entities detected
-   - `contracts/` - If API endpoints required
-   - `research.md` - Only if technical decisions needed
-
-4. **Update agent context**:
-   - Run `{AGENT_SCRIPT}` to update AI agent files
+Quick-mode constraints while running `/speckit.plan`:
+- If tech stack is missing, infer it from repository context; only ask if a wrong choice would materially derail the plan.
+- Prefer defaults aligned to existing project patterns.
+- After `/speckit.plan` completes, run `{AGENT_SCRIPT}` to update agent context.
 
 ### Step 5: Generate Tasks
 
-1. **Load all design documents**
-2. **Generate tasks.md** with:
-   - Phased task breakdown
-   - User story organization
-   - Parallel execution markers [P]
-   - Dependency graph
+Run the canonical command: `/speckit.tasks`
+
+Quick-mode constraints while running `/speckit.tasks`:
+- Optimize for “ready to implement” with minimal ceremony.
+- Preserve any task formatting conventions used by the canonical template.
 
 ### Step 6: Generate Checklists (Auto-Select)
 
@@ -229,7 +224,7 @@ Before making any assumptions, scan these context sources in priority order:
 2. **Generate checklists** using fast-mode (no scoping questions):
    - Use context to determine focus areas
    - Apply reasonable defaults for depth/audience
-   - If using `/speckit.checklist`, pre-answer any scoping questions from context and proceed without pausing.
+   - Run `/speckit.checklist` (repeat per domain). If the checklist template prompts for scoping, pre-answer from context and proceed; only pause for user input if it would materially change the checklist content.
    - Each domain creates or appends `FEATURE_DIR/checklists/<domain>.md`
 
 ### Step 7: Critical Clarification (If Needed)
@@ -287,6 +282,12 @@ Your choice: _[Wait for user input]_
    - Integrate findings into analysis report
 
 3. **Generate compact analysis report**
+
+This step MUST be performed by running the canonical command: `/speckit.analyze`
+
+Quick-mode constraints while running `/speckit.analyze`:
+- Ensure checklists in `FEATURE_DIR/checklists/` are included in the analysis (if present).
+- Report only actionable issues; keep the final report compact.
 
 ### Step 9: Final Report
 

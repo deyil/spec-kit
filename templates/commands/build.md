@@ -37,6 +37,18 @@ You **MUST** consider the user input before proceeding (if not empty).
 
 ## Workflow Overview
 
+## Orchestration Summary
+
+This command MUST orchestrate the workflow by running these commands in order (with checkpoints as described below):
+
+1. `/speckit.constitution` (only if missing / explicitly requested)
+2. `/speckit.specify <description>`
+3. `/speckit.clarify` (only if critical ambiguities remain)
+4. `/speckit.plan <tech stack>`
+5. `/speckit.tasks`
+6. `/speckit.checklist` (one or more domains, fast mode)
+7. `/speckit.analyze`
+
 ```text
 ┌─────────────────────────────────────────────────────────────────────────┐
 │                         /speckit.build Workflow                         │
@@ -89,6 +101,13 @@ You **MUST** consider the user input before proceeding (if not empty).
 ```
 
 ## Execution Steps
+
+## Delegation Rule (Bullet-Proofing)
+
+This command is an **orchestrator**.
+
+- For each phase below, you MUST **run the corresponding `/speckit.*` command** and follow the canonical instructions in `templates/commands/<command>.md`.
+- Do **not** re-implement or paraphrase the internal logic of those commands here. Any improvements to the base commands should automatically flow into `/speckit.build`.
 
 ### Phase 1: Gather Inputs
 
@@ -207,7 +226,9 @@ You **MUST** consider the user input before proceeding (if not empty).
 
 ### Phase 3: Specification Phase
 
-Execute the `/speckit.specify` workflow with these modifications:
+**Run the canonical command:** `/speckit.specify <feature description>`
+
+Then apply these orchestration-only behaviors (without rewriting `/speckit.specify`):
 
 1. **Generate branch and spec file**:
    - Generate short name from description
@@ -258,7 +279,9 @@ Execute the `/speckit.specify` workflow with these modifications:
 
 ### Phase 4: Planning Phase
 
-Execute the `/speckit.plan` workflow:
+**Run the canonical command:** `/speckit.plan <tech stack>`
+
+Then apply these orchestration-only behaviors (without rewriting `/speckit.plan`):
 
 1. **Setup**: Run the setup script to get paths
 2. **Load context**: Read spec.md and constitution.md
@@ -302,7 +325,9 @@ Execute the `/speckit.plan` workflow:
 
 ### Phase 5: Task Generation
 
-Execute the `/speckit.tasks` workflow:
+**Run the canonical command:** `/speckit.tasks`
+
+Then apply these orchestration-only behaviors (without rewriting `/speckit.tasks`):
 
 1. **Load design documents**: Read all available artifacts
 2. **Generate tasks.md**:
@@ -341,7 +366,9 @@ Execute the `/speckit.tasks` workflow:
 
 ### Phase 6: Checklist Generation (Fast Mode)
 
-Execute the `/speckit.checklist` workflow in fast mode with minimal interaction:
+**Run the canonical command:** `/speckit.checklist` (repeat once per selected domain)
+
+Then apply these orchestration-only behaviors (without rewriting `/speckit.checklist`):
 
 1. **Auto-suggest checklist domain(s)**:
    - Analyze generated artifacts for domain indicators
@@ -382,7 +409,9 @@ Execute the `/speckit.checklist` workflow in fast mode with minimal interaction:
 
 ### Phase 7: Analysis Phase
 
-Execute the `/speckit.analyze` workflow:
+**Run the canonical command:** `/speckit.analyze`
+
+Then apply these orchestration-only behaviors (without rewriting `/speckit.analyze`):
 
 1. **Load all artifacts**: spec.md, plan.md, tasks.md
 2. **Run analysis passes**:

@@ -30,6 +30,7 @@ Principles:
 Implementation tactics in this plan:
 * New workflow commands (`build`, `quick`, `status`) are new files under `templates/commands/`.
 * New workflow commands orchestrate existing commands instead of duplicating their logic.
+* **Explicit delegation requirement:** `templates/commands/build.md` and `templates/commands/quick.md` must *explicitly run* the existing workflow commands (and therefore inherit their behavior from the canonical templates in `templates/commands/`): `/speckit.constitution` (when needed) → `/speckit.specify` → `/speckit.clarify` (only when needed) → `/speckit.plan` → `/speckit.tasks` → `/speckit.checklist` (as needed) → `/speckit.analyze`. Do not re-implement those commands’ internal logic inside `build`/`quick`.
 * When modifying existing templates, only add narrowly-scoped sections; do not reorder/rewrite existing content.
 * Add checklist scanning to `analyze` as a clearly-delimited, appended section to minimize overlap with upstream edits.
 * Keep version bump + `CHANGELOG.md` edits in a dedicated commit to reduce merge friction.
@@ -72,6 +73,9 @@ Create a single guided wizard command that orchestrates the full workflow:
     * Limit to **1-2 checklist-scoping questions max** (fast mode) before writing checklist file(s)
     * Run `/speckit.analyze` after **all** artifacts are generated (spec + plan + tasks + checklists)
 * Final output: Ready-to-implement project with all artifacts + checklist(s) + analysis report
+
+**Implementation note (for bullet-proofing):**
+* `build.md` should delegate by explicitly invoking the existing command templates (e.g., run `/speckit.specify`, then `/speckit.plan`, then `/speckit.tasks`, then `/speckit.checklist`, then `/speckit.analyze`) rather than copying the logic of those commands into the `build` prompt.
 **Files to create:**
 * `templates/commands/build.md` - The unified command template
 ### 2. New Quick Mode: `/speckit.quick` (High Priority)
@@ -90,6 +94,9 @@ Context-aware fast path for clear requirements:
     * Generate checklist file(s)
     * Run `/speckit.analyze` after **all** artifacts are generated (spec + plan + tasks + checklists)
 * Targets 80% use case where requirements are reasonably clear
+
+**Implementation note (for bullet-proofing):**
+* `quick.md` should delegate by explicitly invoking the existing command templates (e.g., run `/speckit.specify`, `/speckit.plan`, `/speckit.tasks`, `/speckit.checklist`, `/speckit.analyze`) so improvements to the base commands automatically flow into `quick` without needing to update duplicated logic.
 **Context Sources (consulted in priority order):**
 ```warp-runnable-command
 High Priority (always check):
