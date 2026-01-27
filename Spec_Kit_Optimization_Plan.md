@@ -155,12 +155,10 @@ Next: Run /speckit.tasks to generate task breakdown
   ⚠ checklists/security.md - 5/8 complete (3 unresolved)
 ```
 **Implementation approach:**
-* Extend existing `check-prerequisites.sh` with `--status` flag (reuse `get_feature_paths` logic)
-* Or: command template can check file existence directly without helper script
+* Keep `check-prerequisites` scripts generic and reusable (no status-specific flags)
+* Have the `/speckit.status` command call `check-prerequisites` in JSON mode (for basic paths/docs) and perform all status computation (artifact existence, checklist/task scan, stage detection, guidance) inside `status.md`.
 **Files to create/modify:**
-* `templates/commands/status.md` - The status command template
-* `scripts/bash/check-prerequisites.sh` - Add `--status` flag (optional)
-* `scripts/powershell/check-prerequisites.ps1` - Add `-Status` flag (optional)
+* `templates/commands/status.md` - The status command template (contains all status logic)
 ### 4. Keep Analyze and Checklist Separate + Enhance Analyze (Medium Priority)
 After review, these commands serve **distinct purposes** but should integrate better:
 **`/speckit.analyze`** - Cross-artifact consistency:
@@ -250,11 +248,9 @@ New commands are additive and provide easier entry points while preserving granu
 * `templates/commands/specify.md` - Better handoffs
 * `templates/commands/plan.md` - Better handoffs, auto-continue option
 * `templates/commands/tasks.md` - Better handoffs
-* `templates/commands/checklist.md` - Add fast mode (limit checklist-scoping questions to 1-2 for build/quick)
+* `templates/commands/checklist.md` - Use orchestrator-level fast mode (implemented in `build.md` and `quick.md`)
 * `templates/commands/analyze.md` - Add checklist scanning
-* `scripts/bash/check-prerequisites.sh` - Add `--status` flag (optional)
-* `scripts/powershell/check-prerequisites.ps1` - Add `-Status` flag (optional)
-* `.github/workflows/scripts/create-release-packages.sh` - Include new commands in release
+* `.github/workflows/scripts/create-release-packages.sh` - Include new commands in release (already picks up new `templates/commands/*.md` by convention; no script changes required)
 * `src/specify_cli/__init__.py` - Minimal wiring only; keep new logic in new module files where possible
 * `README.md` - Document new commands (small, additive edits)
 * `CHANGELOG.md` - Version bump and changelog (dedicated commit)

@@ -109,7 +109,7 @@ This command is an **orchestrator**.
 - For each phase below, you MUST **run the corresponding `/speckit.*` command** and follow the canonical instructions in `templates/commands/<command>.md`.
 - Do **not** re-implement or paraphrase the internal logic of those commands here. Any improvements to the base commands should automatically flow into `/speckit.build`.
 
-### Phase 1: Gather Inputs
+### Step 1: Gather Inputs
 
 1. **Parse user input**:
    - If `$ARGUMENTS` contains description AND tech stack: extract both
@@ -195,7 +195,7 @@ This command is an **orchestrator**.
    Constraints (press Enter to skip): _[Wait for user input]_
    ```
 
-### Phase 2: Constitution Check
+### Step 2: Constitution Check
 
 1. **Check for existing constitution**:
    - Load `/memory/constitution.md` if it exists
@@ -224,7 +224,7 @@ This command is an **orchestrator**.
 
 3. **Constitution principles extracted for later validation**
 
-### Phase 3: Specification Phase
+### Step 3: Specification Phase
 
 **Run the canonical command:** `/speckit.specify <feature description>`
 
@@ -272,12 +272,12 @@ Then apply these orchestration-only behaviors (without rewriting `/speckit.speci
    Your choice: _[Wait for user input]_
    ```
 
-   - **Continue**: Proceed to Phase 4
+   - **Continue**: Proceed to Step 4
    - **Edit**: Apply user's requested changes, re-validate, re-checkpoint
    - **Clarify**: Ask additional clarification questions, update spec
    - **Abort**: Stop workflow, preserve created files
 
-### Phase 4: Planning Phase
+### Step 4: Planning Phase
 
 **Run the canonical command:** `/speckit.plan <tech stack>`
 
@@ -323,7 +323,7 @@ Then apply these orchestration-only behaviors (without rewriting `/speckit.plan`
    Your choice: _[Wait for user input]_
    ```
 
-### Phase 5: Task Generation
+### Step 5: Task Generation
 
 **Run the canonical command:** `/speckit.tasks`
 
@@ -364,7 +364,7 @@ Then apply these orchestration-only behaviors (without rewriting `/speckit.tasks
    Your choice: _[Wait for user input]_
    ```
 
-### Phase 6: Checklist Generation (Fast Mode)
+### Step 6: Checklist Generation (Fast Mode)
 
 **Run the canonical command:** `/speckit.checklist` (repeat once per selected domain)
 
@@ -402,12 +402,10 @@ Then apply these orchestration-only behaviors (without rewriting `/speckit.check
 3. **Run `/speckit.checklist` once per selected checklist**:
    - Always generate the baseline requirements-quality checklist first (creates `FEATURE_DIR/checklists/requirements.md`).
    - For each additional selection (api/ux/security/performance), run `/speckit.checklist` again for that domain (creates or appends `FEATURE_DIR/checklists/<domain>.md`).
-   - Keep the checklist command in **fast-mode**:
-     - Prefer defaults for depth/audience/focus areas when unambiguous
-     - Do not ask more than **2** scoping questions per run
+   - **Fast-mode constraint**: When `/speckit.checklist` prompts for clarifying questions, pre-answer from existing context (spec, plan, constitution) to limit user interaction to **at most 2 questions total** per checklist. If context provides clear answers, skip questions entirely.
    - Each invocation must follow the checklist template format.
 
-### Phase 7: Analysis Phase
+### Step 7: Analysis Phase
 
 **Run the canonical command:** `/speckit.analyze`
 
@@ -459,7 +457,7 @@ Then apply these orchestration-only behaviors (without rewriting `/speckit.analy
    [If critical issues exist, list them and recommend resolution]
    ```
 
-### Phase 8: Completion
+### Step 8: Completion
 
 1. **Generate final summary**:
    ```text

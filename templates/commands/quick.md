@@ -221,10 +221,10 @@ Quick-mode constraints while running `/speckit.tasks`:
    - If auth/security requirements → generate `security.md`
    - If performance requirements specified → generate `performance.md`
 
-2. **Generate checklists** using fast-mode (no scoping questions):
-   - Use context to determine focus areas
-   - Apply reasonable defaults for depth/audience
-   - Run `/speckit.checklist` (repeat per domain). If the checklist template prompts for scoping, pre-answer from context and proceed; only pause for user input if it would materially change the checklist content.
+2. **Generate checklists** using fast-mode (zero scoping questions):
+   - Run `/speckit.checklist` (repeat per domain)
+   - **Fast-mode constraint**: When the checklist command prompts for clarifying questions, pre-answer **all questions** from available context (spec, plan, constitution, codebase patterns) and proceed without user interaction. Do not pause for user input.
+   - Use context to determine focus areas, depth, and audience
    - Each domain creates or appends `FEATURE_DIR/checklists/<domain>.md`
 
 ### Step 7: Critical Clarification (If Needed)
