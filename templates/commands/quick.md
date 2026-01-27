@@ -1,22 +1,22 @@
 ---
 description: Fast path for clear requirements - combines specify, plan, tasks, checklist, and analyze in one context-aware command.
-handoffs: 
-   - label: Start Implementation
-      agent: speckit.implement
-      prompt: Begin implementing the tasks
-      send: true
-   - label: View Status
-      agent: speckit.status
-      prompt: Show current workflow progress
-   - label: Full Build Mode
-      agent: speckit.build
-      prompt: Run the full guided workflow
+handoffs:
+  - label: Start Implementation
+    agent: speckit.implement
+    prompt: Begin implementing the tasks
+    send: true
+  - label: View Status
+    agent: speckit.status
+    prompt: Show current workflow progress
+  - label: Full Build Mode
+    agent: speckit.build
+    prompt: Run the full guided workflow
 scripts:
-   sh: scripts/bash/create-new-feature.sh --json "{ARGS}"
-   ps: scripts/powershell/create-new-feature.ps1 -Json "{ARGS}"
+  sh: scripts/bash/create-new-feature.sh --json "{ARGS}"
+  ps: scripts/powershell/create-new-feature.ps1 -Json "{ARGS}"
 agent_scripts:
-   sh: scripts/bash/update-agent-context.sh __AGENT__
-   ps: scripts/powershell/update-agent-context.ps1 -AgentType __AGENT__
+  sh: scripts/bash/update-agent-context.sh __AGENT__
+  ps: scripts/powershell/update-agent-context.ps1 -AgentType __AGENT__
 ---
 
 ## User Input
@@ -41,8 +41,6 @@ You **MUST** consider the user input before proceeding (if not empty).
 **Key difference from `/speckit.build`**:
 - `/speckit.build` = Guided wizard with checkpoints (10-15 min)
 - `/speckit.quick` = Automated flow with context-aware assumptions (2-4 min)
-
-## Workflow Overview
 
 ## Orchestration Summary
 
@@ -143,19 +141,43 @@ This command is an **orchestrator**.
    - /speckit.quick Create a dashboard showing real-time analytics
    ```
 
-3. **Generate branch and initialize**:
-   - Generate short name from description (2-4 words)
-   - Check for existing branches (remote, local, specs directories)
-   - Run `{SCRIPT}` with calculated number and short-name
-   - Parse JSON output for BRANCH_NAME and SPEC_FILE (and FEATURE_NUM if useful)
-   - Derive FEATURE_DIR from SPEC_FILE (its parent directory)
-
-4. **Run the canonical spec command**:
+3. **Run the canonical spec command**:
    - Run: `/speckit.specify <feature description>`
    - Provide the description parsed from `$ARGUMENTS`.
    - If `/speckit.specify` asks optional questions, answer using project context; ask the user only if it’s a showstopper (counts toward the 0–2 critical question budget).
 
 ### Step 2: Context Scan
+
+Before making assumptions, scan these context sources in priority order:
+
+#### High Priority (always check)
+
+| Priority | Source | What to Extract |
+|----------|--------|-----------------|
+| 1 | `/memory/constitution.md` | Principles, constraints, non-negotiables |
+| 2 | Existing `specs/*/spec.md` + `plan.md` | Patterns from previous features |
+| 3 | Agent context files (`CLAUDE.md`, `AGENTS.md`, etc.) | Established AI context |
+| 4 | Config files (`package.json`, `pyproject.toml`, etc.) | Dependencies, scripts, versions |
+| 5 | Design system / UI components | Existing UI patterns, theme |
+
+#### Medium Priority (for relevant decisions)
+
+| Priority | Source | What to Extract |
+|----------|--------|-----------------|
+| 6 | Codebase patterns | Directory structure, naming, imports |
+| 7 | Style files + theme (`tailwind.config`, CSS vars) | Brand, colors |
+| 8 | Test patterns | Framework, coverage expectations |
+| 9 | CI/CD config (`.github/workflows`) | Required checks |
+| 10 | Existing contracts (OpenAPI, GraphQL) | API patterns |
+
+#### Lower Priority (if still ambiguous)
+
+| Priority | Source | What to Extract |
+|----------|--------|-----------------|
+| 11 | Storybook / component docs | UI documentation |
+| 12 | Git history / recent commits | Current work context |
+| 13 | README | Project overview |
+| 14 | Infrastructure configs (Docker, etc.) | Deployment patterns |
 
 1. **Scan all available context sources** (see table above):
    - Build a context map with findings from each source
@@ -332,31 +354,7 @@ Alternative: Run `/speckit.build` for a more thorough guided review
 
 ## Assumptions Documentation
 
-Every assumption MUST be documented with its source:
-
-```markdown
-## Assumptions (derived from project context)
-
-### From Constitution (High Confidence)
-- OAuth2 authentication flow required
-- All API endpoints must be versioned
-- Test coverage minimum 80%
-
-### From Existing Features (High Confidence)
-- SendGrid for transactional emails (per feature 001-notifications)
-- PostgreSQL database (per project standard)
-- JWT tokens with 1-hour expiry
-
-### From Codebase Patterns (Medium Confidence)
-- RESTful API design with `/api/v1/` prefix
-- Snake_case for database columns
-- PascalCase for model classes
-
-### From Defaults (Lower Confidence - Review Recommended)
-- Standard pagination (20 items per page)
-- Soft delete for user records
-- English-only UI initially
-```
+Every assumption MUST be documented with its source (prefer constitution/spec history/config/codebase; default only when necessary).
 
 ## When to Use `/speckit.quick` vs `/speckit.build`
 
@@ -399,3 +397,4 @@ Every assumption MUST be documented with its source:
 ```text
 /speckit.quick Add password reset flow (similar to existing email verification)
 ```
+

@@ -1,6 +1,6 @@
 ---
 description: Unified guided wizard that orchestrates the complete spec-driven workflow from description to ready-to-implement project.
-handoffs: 
+handoffs:
    - label: Start Implementation
       agent: speckit.implement
       prompt: Begin implementing the tasks
@@ -8,6 +8,9 @@ handoffs:
    - label: View Status
       agent: speckit.status
       prompt: Show current workflow progress
+   - label: Fast Quick Mode
+      agent: speckit.quick
+      prompt: Run the fast-path workflow
 scripts:
    sh: scripts/bash/create-new-feature.sh --json "{ARGS}"
    ps: scripts/powershell/create-new-feature.ps1 -Json "{ARGS}"
@@ -34,8 +37,6 @@ You **MUST** consider the user input before proceeding (if not empty).
 - Teams that need documentation at every phase
 
 **Time estimate**: 10-15 minutes for a complete, well-documented project setup.
-
-## Workflow Overview
 
 ## Orchestration Summary
 
@@ -228,24 +229,9 @@ This command is an **orchestrator**.
 
 **Run the canonical command:** `/speckit.specify <feature description>`
 
-Then apply these orchestration-only behaviors (without rewriting `/speckit.specify`):
+Orchestration-only behavior:
 
-1. **Generate branch and spec file**:
-   - Generate short name from description
-   - Check for existing branches (remote, local, specs directories)
-   - Run `{SCRIPT}` with calculated number and short-name
-   - Parse JSON output for BRANCH_NAME and SPEC_FILE paths
-
-2. **Generate specification**:
-   - Load `templates/spec-template.md`
-   - Fill all sections based on feature description
-   - Apply constitution constraints where applicable
-   - Mark critical unknowns with `[NEEDS CLARIFICATION]` (max 3)
-
-3. **Clarification pass** (if needed):
-   - If any `[NEEDS CLARIFICATION]` markers exist, present questions
-   - Use table format with options and implications
-   - Update spec with user's answers
+- If critical ambiguities remain after `/speckit.specify`, run `/speckit.clarify` before checkpointing.
 
 4. **⏸️ CHECKPOINT - Specification Review**:
    ```text
@@ -281,19 +267,9 @@ Then apply these orchestration-only behaviors (without rewriting `/speckit.speci
 
 **Run the canonical command:** `/speckit.plan <tech stack>`
 
-Then apply these orchestration-only behaviors (without rewriting `/speckit.plan`):
+Orchestration-only behavior:
 
-1. **Setup**: Run the setup script to get paths
-2. **Load context**: Read spec.md and constitution.md
-3. **Generate planning artifacts**:
-   - Fill IMPL_PLAN template with technical context
-   - Generate `research.md` if unknowns exist
-   - Generate `data-model.md` for entities
-   - Generate `contracts/` for API specifications
-   - Generate `quickstart.md` for test scenarios
-
-4. **Update agent context**:
-   - Run `{AGENT_SCRIPT}` to update AI agent files
+- After `/speckit.plan` completes, run `{AGENT_SCRIPT}` to update AI agent context files.
 
 5. **⏸️ CHECKPOINT - Plan Review**:
    ```text
@@ -327,16 +303,6 @@ Then apply these orchestration-only behaviors (without rewriting `/speckit.plan`
 
 **Run the canonical command:** `/speckit.tasks`
 
-Then apply these orchestration-only behaviors (without rewriting `/speckit.tasks`):
-
-1. **Load design documents**: Read all available artifacts
-2. **Generate tasks.md**:
-   - Extract user stories with priorities
-   - Map components to stories
-   - Generate phased task breakdown
-   - Identify parallel execution opportunities
-   - Create dependency graph
-
 3. **⏸️ CHECKPOINT - Tasks Review**:
    ```text
    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -368,7 +334,7 @@ Then apply these orchestration-only behaviors (without rewriting `/speckit.tasks
 
 **Run the canonical command:** `/speckit.checklist` (repeat once per selected domain)
 
-Then apply these orchestration-only behaviors (without rewriting `/speckit.checklist`):
+Orchestration-only behavior:
 
 1. **Auto-suggest checklist domain(s)**:
    - Analyze generated artifacts for domain indicators
@@ -400,39 +366,15 @@ Then apply these orchestration-only behaviors (without rewriting `/speckit.check
    ```
 
 3. **Run `/speckit.checklist` once per selected checklist**:
-   - Always generate the baseline requirements-quality checklist first (creates `FEATURE_DIR/checklists/requirements.md`).
-   - For each additional selection (api/ux/security/performance), run `/speckit.checklist` again for that domain (creates or appends `FEATURE_DIR/checklists/<domain>.md`).
-   - **Fast-mode constraint**: When `/speckit.checklist` prompts for clarifying questions, pre-answer from existing context (spec, plan, constitution) to limit user interaction to **at most 2 questions total** per checklist. If context provides clear answers, skip questions entirely.
-   - Each invocation must follow the checklist template format.
+   - Always generate the baseline `requirements.md` checklist first.
+   - For any additional selected domains, run `/speckit.checklist` again per domain.
+   - **Fast-mode constraint**: limit user interaction to **at most 2 questions total** per checklist by pre-answering from existing context when possible.
 
 ### Step 7: Analysis Phase
 
 **Run the canonical command:** `/speckit.analyze`
 
-Then apply these orchestration-only behaviors (without rewriting `/speckit.analyze`):
-
-1. **Load all artifacts**: spec.md, plan.md, tasks.md
-2. **Run analysis passes**:
-   - Duplication detection
-   - Ambiguity detection
-   - Underspecification check
-   - Constitution alignment
-   - Coverage gap analysis
-   - Inconsistency detection
-
-3. **Analyze checklists** (enhanced analyze feature):
-   - Read all files in `FEATURE_DIR/checklists/`
-   - Perform quality analysis (ambiguity, alignment, testability)
-   - Check cross-artifact consistency with spec/plan
-   - Integrate findings into main analysis report
-
-4. **Generate analysis report**:
-   - Findings table with severity
-   - Coverage summary
-   - Checklist quality findings
-   - Recommendations
-
-5. **Present analysis summary** (no checkpoint - informational):
+Present analysis summary (no checkpoint - informational):
    ```text
    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
    📊 Analysis Complete
@@ -515,3 +457,4 @@ Then apply these orchestration-only behaviors (without rewriting `/speckit.analy
 - Review each checkpoint carefully - changes are easier before implementation
 - The analysis phase helps catch issues early - address critical findings
 - Checklists are optional but valuable for complex features
+
