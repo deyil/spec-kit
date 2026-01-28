@@ -11,12 +11,6 @@ handoffs:
    - label: Fast Quick Mode
       agent: speckit.quick
       prompt: Run the fast-path workflow
-scripts:
-   sh: scripts/bash/create-new-feature.sh --json "{ARGS}"
-   ps: scripts/powershell/create-new-feature.ps1 -Json "{ARGS}"
-agent_scripts:
-   sh: scripts/bash/update-agent-context.sh __AGENT__
-   ps: scripts/powershell/update-agent-context.ps1 -AgentType __AGENT__
 ---
 
 ## User Input
@@ -107,6 +101,8 @@ This command MUST orchestrate the workflow by running these commands in order (w
 ## Delegation Rule (Bullet-Proofing)
 
 This command is an **orchestrator**.
+
+**Important**: `/speckit.build` does **not** invoke any scripts directly. It must only orchestrate the canonical `/speckit.*` commands listed below.
 
 - For each phase below, you MUST **run the corresponding `/speckit.*` command** and follow the canonical instructions in `templates/commands/<command>.md`.
 - Do **not** re-implement or paraphrase the internal logic of those commands here. Any improvements to the base commands should automatically flow into `/speckit.build`.

@@ -11,12 +11,6 @@ handoffs:
   - label: Full Build Mode
     agent: speckit.build
     prompt: Run the full guided workflow
-scripts:
-  sh: scripts/bash/create-new-feature.sh --json "{ARGS}"
-  ps: scripts/powershell/create-new-feature.ps1 -Json "{ARGS}"
-agent_scripts:
-  sh: scripts/bash/update-agent-context.sh __AGENT__
-  ps: scripts/powershell/update-agent-context.ps1 -AgentType __AGENT__
 ---
 
 ## User Input
@@ -117,6 +111,8 @@ Before making any assumptions, scan these context sources in priority order:
 ## Delegation Rule (Bullet-Proofing)
 
 This command is an **orchestrator**.
+
+**Important**: `/speckit.quick` does **not** invoke any scripts directly. It must only orchestrate the canonical `/speckit.*` commands listed below.
 
 - You MUST generate artifacts by explicitly **running the canonical `/speckit.*` commands** whose source-of-truth templates live in `templates/commands/`.
 - Do **not** re-implement or paraphrase those commands’ internal logic inside `/speckit.quick`.
