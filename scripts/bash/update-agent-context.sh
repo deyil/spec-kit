@@ -368,7 +368,7 @@ update_existing_agent_file() {
     
     # Use a single temporary file for atomic update
     local temp_file
-    temp_file=$(mktemp) || {
+    temp_file=$(mktemp "${TMPDIR:-/tmp}/specify.XXXXXX") || {
         log_error "Failed to create temporary file"
         return 1
     }
@@ -533,7 +533,7 @@ update_agent_file() {
     if [[ ! -f "$target_file" ]]; then
         # Create new file from template
         local temp_file
-        temp_file=$(mktemp) || {
+        temp_file=$(mktemp "${TMPDIR:-/tmp}/specify.XXXXXX") || {
             log_error "Failed to create temporary file"
             return 1
         }

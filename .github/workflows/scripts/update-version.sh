@@ -16,8 +16,15 @@ VERSION="$1"
 PYTHON_VERSION=${VERSION#v}
 
 if [ -f "pyproject.toml" ]; then
-  sed -i "s/version = \".*\"/version = \"$PYTHON_VERSION\"/" pyproject.toml
-  echo "Updated pyproject.toml version to $PYTHON_VERSION (for release artifacts only)"
+  tmp_file=$(mktemp "${TMPDIR:-/tmp}/specify.XXXXXX")
+  if sed "s/version = \".*\"/version = \"$PYTHON_VERSION\"/" pyproject.toml > "$tmp_file"; then
+    mv "$tmp_file" pyproject.toml
+    echo "Updated pyproject.toml version to $PYTHON_VERSION (for release artifacts only)"
+  else
+    rm -f "$tmp_file"
+    echo "Error: failed to update pyproject.toml" >&2
+    exit 1
+  fi
 else
   echo "Warning: pyproject.toml not found, skipping version update"
 fi
