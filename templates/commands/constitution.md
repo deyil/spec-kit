@@ -4,6 +4,9 @@ handoffs:
   - label: Build Specification
     agent: speckit.specify
     prompt: Implement the feature specification based on the updated constitution. I want to build...
+scripts:
+   sh: "true"
+   ps: "Write-Output 'No script required'"
 ---
 
 ## User Input

@@ -11,6 +11,9 @@ handoffs:
   - label: Full Build Mode
     agent: speckit.build
     prompt: Run the full guided workflow
+scripts:
+   sh: "true"
+   ps: "Write-Output 'No script required'"
 ---
 
 ## User Input

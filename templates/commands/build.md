@@ -11,6 +11,9 @@ handoffs:
    - label: Fast Quick Mode
       agent: speckit.quick
       prompt: Run the fast-path workflow
+scripts:
+  sh: "true"
+  ps: "Write-Output 'No script required'"
 ---
 
 ## User Input
