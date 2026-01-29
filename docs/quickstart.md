@@ -5,7 +5,7 @@ This guide will help you get started with Spec-Driven Development using Spec Kit
 > [!NOTE]
 > All automation scripts now provide both Bash (`.sh`) and PowerShell (`.ps1`) variants. The `specify` CLI auto-selects based on OS unless you pass `--script sh|ps`.
 
-## The 6-Step Process
+## Choose Your Workflow
 
 > [!TIP]
 > **Context Awareness**: Spec Kit commands automatically detect the active feature based on your current Git branch (e.g., `001-feature-name`). To switch between different specifications, simply switch Git branches.
@@ -29,56 +29,80 @@ uvx --from git+https://github.com/deyil/spec-kit.git specify init <PROJECT_NAME>
 uvx --from git+https://github.com/deyil/spec-kit.git specify init <PROJECT_NAME> --script sh  # Force POSIX shell
 ```
 
-### Step 2: Define Your Constitution
+### Step 2: Start Building (Choose Your Path)
 
-**In your AI Agent's chat interface**, use the `/speckit.constitution` slash command to establish the core rules and principles for your project. You should provide your project's specific principles as arguments.
+Spec Kit offers three ways to build, depending on your project needs.
 
-```markdown
-/speckit.constitution This project follows a "Library-First" approach. All features must be implemented as standalone libraries first. We use TDD strictly. We prefer functional programming patterns.
-```
+#### Option A: Guided Wizard (Recommended)
 
-### Step 3: Create the Spec
-
-**In the chat**, use the `/speckit.specify` slash command to describe what you want to build. Focus on the **what** and **why**, not the tech stack.
-
-```markdown
-/speckit.specify Build an application that can help me organize my photos in separate photo albums. Albums are grouped by date and can be re-organized by dragging and dropping on the main page. Albums are never in other nested albums. Within each album, photos are previewed in a tile-like interface.
-```
-
-### Step 4: Refine the Spec
-
-**In the chat**, use the `/speckit.clarify` slash command to identify and resolve ambiguities in your specification. You can provide specific focus areas as arguments.
+Use **/speckit.build** for a complete, guided experience suitable for new projects and comprehensive planning.
 
 ```bash
-/speckit.clarify Focus on security and performance requirements.
+/speckit.build Build an application that can help me organize my photos in separate photo albums
 ```
 
-### Step 5: Create a Technical Implementation Plan
+This command orchestrates the entire workflow:
+1.  **Constitutional Check**: Ensures project principles are set.
+2.  **Specification**: Defines requirements (interactive).
+3.  **Planning**: Defines tech stack and architecture.
+4.  **Task Generation**: Breaks down work into actionable items.
+5.  **Validation**: Runs checklists and analysis automatically.
 
-**In the chat**, use the `/speckit.plan` slash command to provide your tech stack and architecture choices.
+#### Option B: Quick Mode (Fast Path)
 
-```markdown
-/speckit.plan The application uses Vite with minimal number of libraries. Use vanilla HTML, CSS, and JavaScript as much as possible. Images are not uploaded anywhere and metadata is stored in a local SQLite database.
+Use **/speckit.quick** for prototypes, clear requirements, or experienced users who want speed.
+
+```bash
+/speckit.quick Build a photo album app using Vite/React and Supabase
 ```
 
-### Step 6: Break Down and Implement
+This command runs the full workflow with minimal interaction, making intelligent assumptions based on your project context.
 
-**In the chat**, use the `/speckit.tasks` slash command to create an actionable task list.
+#### Option C: Manual Step-by-Step
 
-```markdown
-/speckit.tasks
-```
+For maximum control, use the individual commands in sequence:
 
-Optionally, validate the plan with `/speckit.analyze`:
+1.  **Establish Principles**:
+    ```bash
+    /speckit.constitution This project follows a "Library-First" approach. All features must be implemented as standalone libraries first. We use TDD strictly.
+    ```
 
-```markdown
-/speckit.analyze
-```
+2.  **Create the Spec**:
+    ```bash
+    /speckit.specify Build an application that can help me organize my photos in separate photo albums.
+    ```
 
-Then, use the `/speckit.implement` slash command to execute the plan.
+3.  **Refine (Optional)**:
+    ```bash
+    /speckit.clarify Focus on security and performance requirements.
+    ```
 
-```markdown
-/speckit.implement
+4.  **Create Plan**:
+    ```bash
+    /speckit.plan The application uses Vite with minimal number of libraries. Use vanilla HTML, CSS, and JavaScript as much as possible.
+    ```
+
+5.  **Generate Tasks**:
+    ```bash
+    /speckit.tasks
+    ```
+
+6.  **Validate**:
+    ```bash
+    /speckit.analyze
+    ```
+
+7.  **Implement**:
+    ```bash
+    /speckit.implement
+    ```
+
+### Verify Status
+
+At any time, use **/speckit.status** to check your progress and see what step is next.
+
+```bash
+/speckit.status
 ```
 
 ## Detailed Example: Building Taskify

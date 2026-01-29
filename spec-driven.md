@@ -72,7 +72,18 @@ The key is treating specifications as the source of truth, with code as the gene
 
 ## Streamlining SDD with Commands
 
-The SDD methodology is significantly enhanced through three powerful commands that automate the specification → planning → tasking workflow:
+The SDD methodology is significantly enhanced through powerful commands that automate the workflow. You can choose from orchestrated workflows (Quick or Guided) or use granular commands for fine-grained control.
+
+### Orchestrated Workflows (Recommended)
+
+#### The `/speckit.build` Command (Guided Wizard)
+Orchestrates the complete workflow with checkpoints for user confirmation. It walks you through each phase (Describe → Specify → Plan → Tasks → Checklist), ensuring all documentation is created and validated. Best for new projects or complex features.
+
+#### The `/speckit.quick` Command (Fast Path)
+A streamlined, context-aware command for clear requirements. It makes intelligent assumptions based on your project context and runs the full specification-to-task pipeline with minimal interaction. Best for prototypes or experienced users.
+
+### The Granular Commands
+For maximum control, you can use the individual commands directly:
 
 ### The `/speckit.specify` Command
 
@@ -117,30 +128,19 @@ Here's how these commands transform the traditional development workflow:
 Total: ~12 hours of documentation work
 ```
 
-**SDD with Commands Approach:**
+**SDD with Commands (Guided Mode):**
 
 ```bash
-# Step 1: Create the feature specification (5 minutes)
-/speckit.specify Real-time chat system with message history and user presence
+# Step 1: Run the guided builder (10-15 minutes)
+/speckit.build Real-time chat system with message history and user presence
 
-# This automatically:
-# - Creates branch "003-chat-system"
-# - Generates specs/003-chat-system/spec.md
-# - Populates it with structured requirements
-
-# Step 2: Generate implementation plan (5 minutes)
-/speckit.plan WebSocket for real-time messaging, PostgreSQL for history, Redis for presence
-
-# Step 3: Generate executable tasks (5 minutes)
-/speckit.tasks
-
-# This automatically creates:
-# - specs/003-chat-system/plan.md
-# - specs/003-chat-system/research.md (WebSocket library comparisons)
-# - specs/003-chat-system/data-model.md (Message and User schemas)
-# - specs/003-chat-system/contracts/ (WebSocket events, REST endpoints)
-# - specs/003-chat-system/quickstart.md (Key validation scenarios)
-# - specs/003-chat-system/tasks.md (Task list derived from the plan)
+# This automatically orchestrates:
+# - Branch creation ("003-chat-system")
+# - Specification generation
+# - Constitution check
+# - Tech stack planning
+# - Task generation
+# - Checklist creation and analysis
 ```
 
 In 15 minutes, you have:
