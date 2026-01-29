@@ -85,6 +85,14 @@ A streamlined, context-aware command for clear requirements. It makes intelligen
 ### The Granular Commands
 For maximum control, you can use the individual commands directly:
 
+### The `/speckit.constitution` Command
+
+Used to establish or update the project's foundational guidelines. While orchestrated workflows handle this automatically, you can run it manually to refine your principles:
+
+1. **Principle Definition**: Captures core values (e.g., "Library-First," "Test-Driven")
+2. **Memory Storage**: Updates `.specify/memory/constitution.md`
+3. **Guardrails**: Provides the contextual rules that all subsequent agent actions must follow
+
 ### The `/speckit.specify` Command
 
 This command transforms a simple feature description (the user-prompt) into a complete, structured specification with automatic repository management:

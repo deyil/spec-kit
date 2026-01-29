@@ -90,31 +90,38 @@ uvx --from git+https://github.com/deyil/spec-kit.git specify init <PROJECT_NAME>
 - Better tool management with `uv tool list`, `uv tool upgrade`, `uv tool uninstall`
 - Cleaner shell configuration
 
-### 2. Establish project principles
+### 2. Start building (choose your path)
 
-Launch your AI assistant in the project directory. The `/speckit.*` commands are available in the assistant.
+Launch your AI assistant in the project directory. The `/speckit.*` commands are available in the assistant. Choose the path that matches your project's complexity and your preferred level of control:
 
-Use the **`/speckit.constitution`** command to create your project's governing principles and development guidelines that will guide all subsequent development.
+#### Option A: Quick Path (2-4 min)
+**Best for**: Clear requirements, prototypes, or experienced users following established patterns.
+This path automatically generates your project constitution and executes the full workflow with minimal interaction.
+
+```bash
+/speckit.quick Build an application that can help me organize my photos in separate photo albums using Vite with vanilla HTML, CSS, and JavaScript
+```
+
+#### Option B: Guided Wizard (10-15 min)
+**Best for**: New projects, complex features, or when stakeholder review needed.
+This path orchestrates the complete workflow, including constitution generation, with interactive checkpoints.
+
+```bash
+/speckit.build Build an application that can help me organize my photos in separate photo albums
+```
+
+#### Option C: Step-by-Step (Full Control)
+**Best for**: Maximum control over every artifact and phase. Follow the sequential steps below.
+
+### 3. Establish project principles (Step-by-Step only)
+
+Use the **`/speckit.constitution`** command to create your project's governing principles and development guidelines. **Note**: If you chose Option A or B above, this step is handled automatically.
 
 ```bash
 /speckit.constitution Create principles focused on code quality, testing standards, user experience consistency, and performance requirements
 ```
 
-### 3. Start building (choose your path)
-
-**Option A: Quick Path (2-4 min)** - For clear requirements:
-```bash
-/speckit.quick Build an application that can help me organize my photos in separate photo albums using Vite with vanilla HTML, CSS, and JavaScript
-```
-
-**Option B: Guided Wizard (10-15 min)** - For thorough planning:
-```bash
-/speckit.build Build an application that can help me organize my photos in separate photo albums
-```
-
-**Option C: Step-by-Step** - For maximum control, use individual commands:
-
-### 4. Create the spec (if using step-by-step)
+### 4. Create the spec (Step-by-Step only)
 
 Use the **`/speckit.specify`** command to describe what you want to build. Focus on the **what** and **why**, not the tech stack.
 
@@ -122,7 +129,7 @@ Use the **`/speckit.specify`** command to describe what you want to build. Focus
 /speckit.specify Build an application that can help me organize my photos in separate photo albums. Albums are grouped by date and can be re-organized by dragging and dropping on the main page. Albums are never in other nested albums. Within each album, photos are previewed in a tile-like interface.
 ```
 
-### 5. Create a technical implementation plan
+### 5. Create a technical implementation plan (Step-by-Step only)
 
 Use the **`/speckit.plan`** command to provide your tech stack and architecture choices.
 
@@ -130,7 +137,7 @@ Use the **`/speckit.plan`** command to provide your tech stack and architecture 
 /speckit.plan The application uses Vite with minimal number of libraries. Use vanilla HTML, CSS, and JavaScript as much as possible. Images are not uploaded anywhere and metadata is stored in a local SQLite database.
 ```
 
-### 6. Break down into tasks
+### 6. Break down into tasks (Step-by-Step only)
 
 Use **`/speckit.tasks`** to create an actionable task list from your implementation plan.
 
@@ -138,7 +145,7 @@ Use **`/speckit.tasks`** to create an actionable task list from your implementat
 /speckit.tasks
 ```
 
-### 7. Execute implementation
+### 7. Execute implementation (Step-by-Step only)
 
 Use **`/speckit.implement`** to execute all tasks and build your feature according to the plan.
 
@@ -423,7 +430,9 @@ Go to the project folder and run your AI agent. In our example, we're using `cla
 
 You will know that things are configured correctly if you see the `/speckit.constitution`, `/speckit.specify`, `/speckit.plan`, `/speckit.tasks`, and `/speckit.implement` commands available.
 
-The first step should be establishing your project's governing principles using the `/speckit.constitution` command. This helps ensure consistent decision-making throughout all subsequent development phases:
+For many projects, we recommend starting with the orchestrated `/speckit.build` (Guided Wizard) or `/speckit.quick` (Fast Path) commands, which handle the initial setup below automatically.
+
+For manual, step-by-step control, the first step is establishing your project's governing principles using the `/speckit.constitution` command. This helps ensure consistent decision-making throughout all subsequent development phases:
 
 ```text
 /speckit.constitution Create principles focused on code quality, testing standards, user experience consistency, and performance requirements. Include governance for how these principles should guide technical decisions and implementation choices.
