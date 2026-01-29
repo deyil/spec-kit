@@ -25,13 +25,15 @@ You **MUST** consider the user input before proceeding (if not empty).
 
 ### Step 1: Detect Feature Context
 
-1. **Run setup script** to detect current feature:
+1. **Run setup script** to detect current feature and validate when possible:
    ```text
-   Run `{SCRIPT}` from repo root and parse JSON for FEATURE_DIR
+  First attempt strict validation: run `{SCRIPT}` from repo root and parse JSON for FEATURE_DIR.
+  If it errors (not on feature branch or missing required files), fall back to:
+  Run `check-prerequisites.sh --json --paths-only` (and PS equivalent) and continue with status output.
    ```
 
 2. **If no feature detected**, check for any existing specs:
-   - List directories in `.specify/specs/`
+  - List directories in `specs/`
    - If multiple features exist, list them for user to choose
    - If no features exist, report clean slate
 

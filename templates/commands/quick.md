@@ -141,11 +141,6 @@ This command is an **orchestrator**.
    - /speckit.quick Create a dashboard showing real-time analytics
    ```
 
-3. **Run the canonical spec command**:
-   - Run: `/speckit.specify <feature description>`
-   - Provide the description parsed from `$ARGUMENTS`.
-   - If `/speckit.specify` asks optional questions, answer using project context; ask the user only if it’s a showstopper (counts toward the 0–2 critical question budget).
-
 ### Step 2: Constitution Check
 
 1. **Check for existing constitution**:
@@ -193,11 +188,17 @@ This command is an **orchestrator**.
 
 ### Step 4: Generate Specification
 
-This step MUST be performed by running the canonical `/speckit.specify` command (see Step 1.3).
+This step MUST be performed by running the canonical `/speckit.specify` command.
+
+- Run: `/speckit.specify <feature description>`
+- Provide the description parsed from `$ARGUMENTS`.
+- If `/speckit.specify` asks optional questions, answer using project context; ask the user only if it’s a showstopper (counts toward the 0–2 critical question budget).
 
 Quick-mode constraints while running `/speckit.specify`:
 - Document assumptions with sources (prefer constitution/spec history/config/codebase).
 - Ask the user **0–2 questions max**, only for showstoppers.
+
+If critical ambiguities remain after `/speckit.specify`, run `/speckit.clarify` **before** planning.
 
 ### Step 5: Generate Plan
 
@@ -206,7 +207,7 @@ Run the canonical command: `/speckit.plan <tech stack>`
 Quick-mode constraints while running `/speckit.plan`:
 - If tech stack is missing, infer it from repository context; only ask if a wrong choice would materially derail the plan.
 - Prefer defaults aligned to existing project patterns.
-- After `/speckit.plan` completes, run `{AGENT_SCRIPT}` to update agent context.
+- `/speckit.plan` updates agent context as part of its canonical workflow.
 
 ### Step 6: Generate Tasks
 
@@ -223,7 +224,7 @@ Quick-mode constraints while running `/speckit.tasks`:
    Automatically discover and analyze all generated artifacts to determine checklist requirements:
    
    **Discovery process:**
-   - Scan the current feature directory under `.specify/specs/[feature-name]/`.
+   - Scan the current feature directory under `specs/[feature-name]/`.
    - Identify all generated artifacts (markdown files, contract directories, etc.).
    - Read each discovered artifact to understand its content and structure.
    
@@ -241,6 +242,7 @@ Quick-mode constraints while running `/speckit.tasks`:
    - Run `/speckit.checklist` (repeat per domain).
    - **Fast-mode constraint**: When the checklist command prompts for clarifying questions, pre-answer **all questions** from available context (spec, plan, constitution, codebase patterns) and proceed without user interaction. Do not pause for user input.
    - Use context to determine focus areas, depth, and audience.
+   - If `requirements.md` already exists (created by `/speckit.specify`), do not regenerate it; proceed with additional domains only.
 
 ### Step 8: Critical Clarification (If Needed)
 

@@ -350,7 +350,7 @@ Orchestration-only behavior:
 
 Orchestration-only behavior:
 
-- After `/speckit.plan` completes, run `{AGENT_SCRIPT}` to update AI agent context files.
+- `/speckit.plan` will update AI agent context files as part of its canonical workflow.
 
 6. **⏸️ CHECKPOINT - Plan Review**:
    ```text
@@ -418,7 +418,7 @@ Orchestration-only behavior:
    Discover and analyze all artifacts in the current feature directory to derive checklist recommendations:
    
    **Discovery process:**
-   - Scan the current feature directory under `.specify/specs/[feature-name]/`
+   - Scan the current feature directory under `specs/[feature-name]/`
    - Identify all generated artifacts (markdown files, contract directories, etc.)
    - Read each discovered artifact to understand its content and structure
    
@@ -440,7 +440,7 @@ Orchestration-only behavior:
    📋 Checklist Generation (Fast Mode)
    
    Based on artifact analysis, I recommend these checklists:
-   - [x] requirements.md (always included - validates spec quality)
+   - [x] requirements.md (already created by `/speckit.specify`)
    
    Additional recommendations from artifact analysis:
    [List dynamically generated based on findings above]
@@ -465,7 +465,7 @@ Orchestration-only behavior:
    ```
 
 3. **Run `/speckit.checklist` once per selected checklist**:
-   - Always generate the baseline `requirements.md` checklist first.
+   - If `requirements.md` already exists, do not regenerate it. Proceed with additional domains only.
    - For any additional selected domains, run `/speckit.checklist` again per domain.
    - **Fast-mode constraint**: limit user interaction to **at most 2 questions total** per checklist by pre-answering from artifact context when possible.
    - Pass artifact-derived context to `/speckit.checklist` to minimize redundant questions.
@@ -526,7 +526,7 @@ Present analysis summary (no checkpoint - informational):
    3. Run `/speckit.implement` to begin development
    
    Suggested commit:
-   git add .specify/specs/[feature-dir]
+   git add specs/[feature-dir]
    git commit -m "feat: add specification for [feature name]"
    ```
 
