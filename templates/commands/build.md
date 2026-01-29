@@ -64,26 +64,26 @@ This command MUST orchestrate the workflow by running these commands in order (w
 │     └── Extract principles for constraint checking                      │
 │                                                                         │
 │  3. SPECIFICATION PHASE (/speckit.specify logic)                        │
-│     ├── Generate spec.md from description                               │
+│     ├── Run specify command                                             │
 │     ├── Identify critical ambiguities (max 5 questions)                 │
-│     ├── ⏸️  CHECKPOINT: User reviews spec                                │
-│     └── Update spec with clarifications                                 │
+│     ├── ⏸️  CHECKPOINT: User reviews specification                       │
+│     └── Update specification with clarifications                        │
 │                                                                         │
 │  4. PLANNING PHASE (/speckit.plan logic)                                │
-│     ├── Generate plan.md with architecture                              │
-│     ├── Create data-model.md, contracts/ as needed                      │
+│     ├── Run plan command                                                │
+│     ├── Generate architectural artifacts as needed                      │
 │     ├── ⏸️  CHECKPOINT: User reviews plan                                │
 │     └── Update agent context files                                      │
 │                                                                         │
 │  5. TASK GENERATION (/speckit.tasks logic)                              │
-│     ├── Generate tasks.md with phased breakdown                         │
+│     ├── Run tasks command                                               │
 │     ├── Identify parallel execution opportunities                       │
 │     └── ⏸️  CHECKPOINT: User reviews tasks                               │
 │                                                                         │
 │  6. CHECKLIST GENERATION (/speckit.checklist logic)                     │
-│     ├── Auto-suggest checklist domain from artifacts                    │
+│     ├── Auto-suggest checklist domains from context                     │
 │     ├── Ask 1-2 quick scoping questions (fast mode)                     │
-│     └── Generate checklist file(s)                                      │
+│     └── Run checklist command(s)                                        │
 │                                                                         │
 │  7. ANALYSIS PHASE (/speckit.analyze logic)                             │
 │     ├── Cross-artifact consistency check                                │
@@ -98,6 +98,39 @@ This command MUST orchestrate the workflow by running these commands in order (w
 │                                                                         │
 └─────────────────────────────────────────────────────────────────────────┘
 ```
+
+## Context Sources
+
+Before making recommendations or auto-detecting settings, scan these context sources in priority order:
+
+### High Priority (always check)
+
+| Priority | Source | What to Extract |
+|----------|--------|-----------------|
+| 1 | `/memory/constitution.md` | Principles, constraints, non-negotiables |
+| 2 | Existing `specs/*/spec.md` + `plan.md` | Patterns from previous features |
+| 3 | Agent context files (`CLAUDE.md`, `AGENTS.md`, etc.) | Established AI context |
+| 4 | Config files (`package.json`, `pyproject.toml`, etc.) | Dependencies, scripts, versions |
+| 5 | Design system / UI components | Existing UI patterns, theme |
+
+### Medium Priority (for relevant decisions)
+
+| Priority | Source | What to Extract |
+|----------|--------|-----------------|
+| 6 | Codebase patterns | Directory structure, naming, imports |
+| 7 | Style files + theme (`tailwind.config`, CSS vars) | Brand, colors |
+| 8 | Test patterns | Framework, coverage expectations |
+| 9 | CI/CD config (`.github/workflows`) | Required checks |
+| 10 | Existing contracts (OpenAPI, GraphQL) | API patterns |
+
+### Lower Priority (if still ambiguous)
+
+| Priority | Source | What to Extract |
+|----------|--------|-----------------|
+| 11 | Storybook / component docs | UI documentation |
+| 12 | Git history / recent commits | Current work context |
+| 13 | README | Project overview |
+| 14 | Infrastructure configs (Docker, etc.) | Deployment patterns |
 
 ## Execution Steps
 
@@ -154,8 +187,13 @@ This command is an **orchestrator**.
    - If tech stack detected, proceed with it
    
    **Step 3: If auto-detection fails, analyze and recommend**
-   - Review the feature description for technical implications
-   - Consider complexity, scalability needs, and common patterns
+   - Review the feature description for technical requirements
+   - Consider: data storage needs, API vs UI focus, real-time requirements, scale expectations
+   - Select appropriate stack based on project needs (preferring existing repo patterns):
+     - Feature complexity (simple → lightweight stack, complex → robust framework)
+     - Data requirements (e.g., relational → SQL, document-based → NoSQL, caching → Redis)
+     - UI needs (e.g., SPA → React/Vue, SSR → Next.js/Nuxt, simple → vanilla)
+     - API style (e.g., REST, GraphQL, real-time → WebSocket)
    - Factor in any constraints mentioned by the user
    - Present a recommended stack with brief rationale:
    
@@ -282,7 +320,7 @@ Orchestration-only behavior:
    ⏸️  CHECKPOINT: Specification Review
    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
    
-   📄 Specification created: [SPEC_FILE path]
+   📄 Specification artifacts successfully created.
    
    Key elements:
    - Feature: [Feature name]
@@ -320,11 +358,7 @@ Orchestration-only behavior:
    ⏸️  CHECKPOINT: Plan Review
    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
    
-   📋 Planning artifacts created:
-   - plan.md: Technical architecture and phases
-   - data-model.md: Entity definitions [if applicable]
-   - contracts/: API specifications [if applicable]
-   - research.md: Technical decisions [if applicable]
+   📋 Technical planning artifacts successfully created.
    
    Architecture highlights:
    - Tech stack: [Summary]
@@ -352,7 +386,7 @@ Orchestration-only behavior:
    ⏸️  CHECKPOINT: Tasks Review
    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
    
-   📝 Task breakdown created: tasks.md
+   📝 Implementation tasks successfully created.
    
    Summary:
    - Total tasks: [Count]
@@ -476,17 +510,8 @@ Present analysis summary (no checkpoint - informational):
    Feature: [Feature name]
    Branch: [BRANCH_NAME]
    
-   📁 Generated Artifacts:
-   ├── [FEATURE_DIR]/
-   │   ├── spec.md ✓
-   │   ├── plan.md ✓
-   │   ├── tasks.md ✓
-   │   ├── data-model.md [✓ if created]
-   │   ├── research.md [✓ if created]
-   │   ├── contracts/ [✓ if created]
-   │   └── checklists/
-   │       ├── requirements.md ✓
-   │       └── [additional checklists...]
+   📁 Feature Directory: [FEATURE_DIR]
+   └── All artifacts generated via orchestrated commands.
    
    📊 Quality Summary:
    - Analysis issues: [Count] critical, [Count] high, [Count] medium
