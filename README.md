@@ -96,7 +96,7 @@ Launch your AI assistant in the project directory. The `/speckit.*` commands are
 
 #### Option A: Quick Path (2-4 min)
 **Best for**: Clear requirements, prototypes, or experienced users following established patterns.
-This path automatically generates your project constitution and executes the full workflow with minimal interaction.
+This path automatically uses or generates your project constitution and executes the full workflow with minimal interaction.
 
 ```bash
 /speckit.quick Build an application that can help me organize my photos in separate photo albums using Vite with vanilla HTML, CSS, and JavaScript
