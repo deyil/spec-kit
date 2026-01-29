@@ -351,6 +351,12 @@ Next: Run `/speckit.implement` to begin development
 Alternative: Run `/speckit.build` for a more thorough guided review
 ```
 
+**Error Handling**:
+- **No description**: Error with usage examples
+- **No project context**: Warn and proceed with defaults (document heavily)
+- **Tech stack conflicts**: Ask clarification (counts toward 2-question limit)
+- **Script failures**: Report and suggest `/speckit.build` for step-by-step
+
 ## Assumptions Documentation
 
 Every assumption MUST be documented with its source (prefer constitution/spec history/config/codebase; default only when necessary).
@@ -367,13 +373,6 @@ Every assumption MUST be documented with its source (prefer constitution/spec hi
 | Novel feature type, many unknowns | `/speckit.build` |
 | Time-constrained | `/speckit.quick` |
 | Quality-critical | `/speckit.build` |
-
-## Error Handling
-
-- **No description**: Error with usage examples
-- **No project context**: Warn and proceed with defaults (document heavily)
-- **Tech stack conflicts**: Ask clarification (counts toward 2-question limit)
-- **Script failures**: Report and suggest `/speckit.build` for step-by-step
 
 ## Examples
 

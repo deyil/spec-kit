@@ -487,12 +487,11 @@ Present analysis summary (no checkpoint - informational):
    - `/speckit.status` - View current progress
    - `/speckit.analyze` - Re-run analysis if changes made
 
-## Error Handling
-
-- **Missing prerequisites**: Guide user to resolve (e.g., no git repo → suggest `git init`)
-- **Script failures**: Report error, suggest manual steps
-- **User abort**: Preserve all created files, report what was completed
-- **Validation failures**: Offer to fix or proceed with warnings
+3. **Error Handling**:
+   - **Missing prerequisites**: Guide user to resolve (e.g., no git repo → suggest `git init`)
+   - **Script failures**: Report error, suggest manual steps
+   - **User abort**: Preserve all created files, report what was completed
+   - **Validation failures**: Offer to fix or proceed with warnings
 
 ## Tips
 
