@@ -379,39 +379,62 @@ Orchestration-only behavior:
 
 Orchestration-only behavior:
 
-1. **Auto-suggest checklist domain(s)**:
-   - Analyze generated artifacts for domain indicators
-   - Suggest 1-3 relevant checklist types based on:
-     - API endpoints present → suggest `api.md`
-     - UI/UX requirements → suggest `ux.md`
-     - Security requirements → suggest `security.md`
-     - Performance requirements → suggest `performance.md`
+1. **Artifact-Driven Domain Analysis**:
+   
+   Discover and analyze all artifacts in the current feature directory to derive checklist recommendations:
+   
+   **Discovery process:**
+   - Scan the current feature directory under `.specify/specs/[feature-name]/`
+   - Identify all generated artifacts (markdown files, contract directories, etc.)
+   - Read each discovered artifact to understand its content and structure
+   
+   **For each discovered artifact, extract:**
+   - Domain-specific patterns (API routes, UI components, auth flows, data operations)
+   - Explicit quality concerns mentioned (performance targets, security requirements)
+   - Implicit validation needs (complexity indicators, integration points)
+   - Risk areas that warrant checklist coverage
+   
+   **Generate domain suggestions with evidence:**
+   - For each suggested checklist, cite specific artifacts and line references from discovered files
+   - Quantify findings where possible (e.g., "12 API endpoints found in contracts/")
+   - Rank suggestions by relevance based on artifact coverage density
 
 2. **Fast-mode scoping (max 2 questions)**:
+   
+   Present analysis-derived recommendations:
    ```text
    📋 Checklist Generation (Fast Mode)
    
-   Based on your feature, I recommend generating these checklists:
+   Based on artifact analysis, I recommend these checklists:
    - [x] requirements.md (always included - validates spec quality)
-   - [ ] api.md (detected API requirements)
-   - [ ] ux.md (detected UI requirements)
+   
+   Additional recommendations from artifact analysis:
+   [List dynamically generated based on findings above]
    
    Q1: Which additional checklists would you like? (Enter letters, e.g., "A,B")
    
-   | Option | Checklist | Reason |
-   |--------|-----------|--------|
-   | A | api.md | [Count] API endpoints detected |
-   | B | ux.md | [Count] UI components detected |
-   | C | security.md | Auth/security requirements present |
-   | D | Skip additional | Only requirements.md |
+   | Option | Checklist | Evidence from Artifacts |
+   |--------|-----------|-------------------------|
+   | [Letter] | [domain].md | [Specific findings: counts, file refs, patterns detected] |
+   | ... | ... | ... |
+   | [Last] | Skip additional | Only requirements.md |
    
    Your choice: _[Wait for user input]_
+   ```
+   
+   **If a selected domain has ambiguous scope**, ask ONE focused scoping question derived from the artifact analysis:
+   ```text
+   Q2: [Domain-specific question derived from artifact gaps or ambiguities]
+   
+   Context: [Why this question is needed based on artifact analysis]
+   Options: [Choices derived from patterns found in artifacts]
    ```
 
 3. **Run `/speckit.checklist` once per selected checklist**:
    - Always generate the baseline `requirements.md` checklist first.
    - For any additional selected domains, run `/speckit.checklist` again per domain.
-   - **Fast-mode constraint**: limit user interaction to **at most 2 questions total** per checklist by pre-answering from existing context when possible.
+   - **Fast-mode constraint**: limit user interaction to **at most 2 questions total** per checklist by pre-answering from artifact context when possible.
+   - Pass artifact-derived context to `/speckit.checklist` to minimize redundant questions.
 
 ### Step 7: Analysis Phase
 
