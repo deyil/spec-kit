@@ -42,11 +42,12 @@ Use **/speckit.build** for a complete, guided experience suitable for new projec
 ```
 
 This command orchestrates the entire workflow:
-1.  **Constitutional Check**: Ensures project principles are set.
-2.  **Specification**: Defines requirements (interactive).
-3.  **Planning**: Defines tech stack and architecture.
-4.  **Task Generation**: Breaks down work into actionable items.
-5.  **Validation**: Runs checklists and analysis automatically.
+
+1. **Constitutional Check**: Ensures project principles are set.
+2. **Specification**: Defines requirements (interactive).
+3. **Planning**: Defines tech stack and architecture.
+4. **Task Generation**: Breaks down work into actionable items.
+5. **Validation**: Runs checklists and analysis automatically.
 
 #### Option B: Quick Mode (Fast Path)
 
@@ -62,37 +63,44 @@ This command runs the full workflow with minimal interaction, making intelligent
 
 For maximum control, use the individual commands in sequence:
 
-1.  **Establish Principles**:
+1. **Establish Principles**:
+
     ```bash
     /speckit.constitution This project follows a "Library-First" approach. All features must be implemented as standalone libraries first. We use TDD strictly.
     ```
 
-2.  **Create the Spec**:
+2. **Create the Spec**:
+
     ```bash
     /speckit.specify Build an application that can help me organize my photos in separate photo albums.
     ```
 
-3.  **Refine (Optional)**:
+3. **Refine (Optional)**:
+
     ```bash
     /speckit.clarify Focus on security and performance requirements.
     ```
 
-4.  **Create Plan**:
+4. **Create Plan**:
+
     ```bash
     /speckit.plan The application uses Vite with minimal number of libraries. Use vanilla HTML, CSS, and JavaScript as much as possible.
     ```
 
-5.  **Generate Tasks**:
+5. **Generate Tasks**:
+
     ```bash
     /speckit.tasks
     ```
 
-6.  **Validate**:
+6. **Validate**:
+
     ```bash
     /speckit.analyze
     ```
 
-7.  **Implement**:
+7. **Implement**:
+
     ```bash
     /speckit.implement
     ```

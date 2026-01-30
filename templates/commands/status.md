@@ -26,14 +26,16 @@ You **MUST** consider the user input before proceeding (if not empty).
 ### Step 1: Detect Feature Context
 
 1. **Run setup script** to detect current feature and validate when possible:
+
    ```text
-  First attempt strict validation: run `{SCRIPT}` from repo root and parse JSON for FEATURE_DIR.
-  If it errors (not on feature branch or missing required files), fall back to:
-  Run `check-prerequisites.sh --json --paths-only` (and PS equivalent) and continue with status output.
+   First attempt strict validation: run `{SCRIPT}` from repo root and parse JSON for FEATURE_DIR.
+   If it errors (not on feature branch or missing required files), fall back to:
+   Run `check-prerequisites.sh --json --paths-only` (and PS equivalent) and continue with status output.
    ```
 
 2. **If no feature detected**, check for any existing specs:
-  - List directories in `specs/`
+
+   - List directories in `specs/`
    - If multiple features exist, list them for user to choose
    - If no features exist, report clean slate
 
@@ -118,6 +120,7 @@ STAGE 6: Complete
 ### Step 6: Generate Status Report
 
 **If no feature exists:**
+
 ```text
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 📊 SPEC KIT STATUS
@@ -136,6 +139,7 @@ Constitution:
 ```
 
 **If feature exists:**
+
 ```text
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 📊 FEATURE STATUS: [Feature Name]
@@ -195,6 +199,7 @@ Continue with `/speckit.implement` (currently in Foundational phase)
 ```
 
 **If multiple features exist and none specified:**
+
 ```text
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 📊 SPEC KIT STATUS - Multiple Features Found
@@ -221,6 +226,7 @@ Current branch: [current git branch if matches a feature]
 Based on current stage, provide specific guidance:
 
 **Stage 1 (Not Started):**
+
 ```text
 Recommended Actions:
 1. Create a project constitution: /speckit.constitution
@@ -231,6 +237,7 @@ Recommended Actions:
 ```
 
 **Stage 2 (Specified):**
+
 ```text
 Recommended Actions:
 1. Review spec.md for completeness
@@ -239,6 +246,7 @@ Recommended Actions:
 ```
 
 **Stage 3 (Planned):**
+
 ```text
 Recommended Actions:
 1. Review plan.md and generated artifacts
@@ -247,6 +255,7 @@ Recommended Actions:
 ```
 
 **Stage 4 (Ready to Implement):**
+
 ```text
 Recommended Actions:
 1. Optional: Run consistency check: /speckit.analyze
@@ -258,6 +267,7 @@ Recommended Actions:
 ```
 
 **Stage 5 (In Progress):**
+
 ```text
 Current Progress:
 - Phase: [Current phase name]
@@ -270,6 +280,7 @@ Recommended Actions:
 ```
 
 **Stage 6 (Complete):**
+
 ```text
 🎉 All tasks complete!
 
@@ -289,16 +300,19 @@ Recommended Actions:
 ## Examples
 
 **Check current feature status:**
+
 ```text
 /speckit.status
 ```
 
 **Check specific feature:**
+
 ```text
 /speckit.status 001-user-auth
 ```
 
 **Check by number:**
+
 ```text
 /speckit.status 2
 ```

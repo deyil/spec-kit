@@ -36,6 +36,7 @@ You **MUST** consider the user input before proceeding (if not empty).
 **Time estimate**: 2-4 minutes for a complete project setup.
 
 **Key difference from `/speckit.build`**:
+
 - `/speckit.build` = Guided wizard with checkpoints (10-15 min)
 - `/speckit.quick` = Automated flow with context-aware assumptions (2-4 min)
 
@@ -130,11 +131,12 @@ This command is an **orchestrator**.
    - Extract any explicit constraints mentioned
 
 2. **If description is empty**, ERROR:
+
    ```text
    ❌ No feature description provided.
-   
+
    Usage: /speckit.quick <description> [using <tech stack>]
-   
+
    Examples:
    - /speckit.quick Build a REST API for user management using Python/FastAPI
    - /speckit.quick Add OAuth2 authentication with Google and GitHub providers
@@ -164,7 +166,7 @@ This command is an **orchestrator**.
    - Check existing config files (`package.json`, `pyproject.toml`, `go.mod`, etc.)
    - Match against previous feature specs and plans
    - Use project conventions from codebase patterns
-   
+
    **If auto-detection fails**, analyze and decide:
    - Review feature description for technical requirements
    - Consider: data storage needs, API vs UI focus, real-time requirements, scale expectations
@@ -176,6 +178,7 @@ This command is an **orchestrator**.
    - Document the chosen stack in assumptions with "Agent-determined" source
 
 3. **Build assumptions inventory**:
+
    ```text
    Context Findings:
    - Auth: OAuth2 flow (from constitution.md)
@@ -195,6 +198,7 @@ This step MUST be performed by running the canonical `/speckit.specify` command.
 - If `/speckit.specify` asks optional questions, answer using project context; ask the user only if it’s a showstopper (counts toward the 0–2 critical question budget).
 
 Quick-mode constraints while running `/speckit.specify`:
+
 - Document assumptions with sources (prefer constitution/spec history/config/codebase).
 - Ask the user **0–2 questions max**, only for showstoppers.
 
@@ -205,6 +209,7 @@ If critical ambiguities remain after `/speckit.specify`, run `/speckit.clarify` 
 Run the canonical command: `/speckit.plan <tech stack>`
 
 Quick-mode constraints while running `/speckit.plan`:
+
 - If tech stack is missing, infer it from repository context; only ask if a wrong choice would materially derail the plan.
 - Prefer defaults aligned to existing project patterns.
 - `/speckit.plan` updates agent context as part of its canonical workflow.
@@ -214,20 +219,21 @@ Quick-mode constraints while running `/speckit.plan`:
 Run the canonical command: `/speckit.tasks`
 
 Quick-mode constraints while running `/speckit.tasks`:
+
 - Optimize for “ready to implement” with minimal ceremony.
 - Preserve any task formatting conventions used by the canonical template.
 
 ### Step 7: Generate Checklists (Auto-Select)
 
 1. **Artifact-Driven Domain Analysis (Automatic)**:
-   
+
    Automatically discover and analyze all generated artifacts to determine checklist requirements:
-   
+
    **Discovery process:**
    - Scan the current feature directory under `specs/[feature-name]/`.
    - Identify all generated artifacts (markdown files, contract directories, etc.).
    - Read each discovered artifact to understand its content and structure.
-   
+
    **For each discovered artifact, extract:**
    - Domain-specific patterns (API routes, UI components, auth flows, data operations).
    - Explicit quality concerns mentioned (performance targets, security requirements).
@@ -247,6 +253,7 @@ Quick-mode constraints while running `/speckit.tasks`:
 ### Step 8: Critical Clarification (If Needed)
 
 **Critical decisions** (ASK user - max 2 questions):
+
 - Authentication model conflicts with existing system
 - Data ownership unclear (who owns user data?)
 - Real-time requirements ambiguous (WebSocket vs polling?)
@@ -255,6 +262,7 @@ Quick-mode constraints while running `/speckit.tasks`:
 - Budget/cost constraints for cloud services
 
 **Non-critical decisions** (ASSUME from context):
+
 - Pagination style → Use existing API patterns
 - Error format → Use existing error format
 - Naming conventions → Follow codebase patterns
@@ -263,6 +271,7 @@ Quick-mode constraints while running `/speckit.tasks`:
 - Logging format → Use existing logging patterns
 
 **If critical ambiguity detected**:
+
 ```text
 ⚠️ Critical Clarification Needed (1 of max 2)
 
@@ -303,6 +312,7 @@ Your choice: _[Wait for user input]_
 This step MUST be performed by running the canonical command: `/speckit.analyze`
 
 Quick-mode constraints while running `/speckit.analyze`:
+
 - Ensure checklists in `FEATURE_DIR/checklists/` are included in the analysis (if present).
 - Report only actionable issues; keep the final report compact.
 
@@ -340,6 +350,7 @@ Alternative: Run `/speckit.build` for a more thorough guided review
 ```
 
 **Error Handling**:
+
 - **No description**: Error with usage examples
 - **No project context**: Warn and proceed with defaults (document heavily)
 - **Tech stack conflicts**: Ask clarification (counts toward 2-question limit)
@@ -365,22 +376,25 @@ Every assumption MUST be documented with its source (prefer constitution/spec hi
 ## Examples
 
 **Basic usage:**
+
 ```text
 /speckit.quick Build a REST API for user management using Python/FastAPI
 ```
 
 **With constraints:**
+
 ```text
 /speckit.quick Add real-time chat feature using WebSockets, must support 1000 concurrent connections
 ```
 
 **UI feature:**
+
 ```text
 /speckit.quick Create a dashboard showing sales analytics with charts and filters using React/TypeScript
 ```
 
 **Following existing patterns:**
+
 ```text
 /speckit.quick Add password reset flow (similar to existing email verification)
 ```
-

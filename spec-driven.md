@@ -77,12 +77,15 @@ The SDD methodology is significantly enhanced through powerful commands that aut
 ### Orchestrated Workflows (Recommended)
 
 #### The `/speckit.build` Command (Guided Wizard)
+
 Orchestrates the complete workflow with checkpoints for user confirmation. It walks you through each phase (Describe → Specify → Plan → Tasks → Checklist), ensuring all documentation is created and validated. Best for new projects or complex features.
 
 #### The `/speckit.quick` Command (Fast Path)
+
 A streamlined, context-aware command for clear requirements. It makes intelligent assumptions based on your project context and runs the full specification-to-task pipeline with minimal interaction. Best for prototypes or experienced users.
 
 ### The Granular Commands
+
 For maximum control, you can use the individual commands directly:
 
 ### The `/speckit.constitution` Command
