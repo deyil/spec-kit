@@ -55,6 +55,7 @@ Check for existence of each artifact in FEATURE_DIR:
 | Contracts | `FEATURE_DIR/contracts/` | ✓ exists / ○ optional |
 | Research | `FEATURE_DIR/research.md` | ✓ exists / ○ optional |
 | Checklists | `FEATURE_DIR/checklists/` | (detailed below) |
+| Other | `FEATURE_DIR/*.md` | ✓ exists / ○ optional |
 
 ### Step 3: Analyze Checklists (if present)
 
@@ -161,6 +162,7 @@ Optional Artifacts:
   [✓] Data Model       [FEATURE_DIR]/data-model.md
   [✓] Contracts        [FEATURE_DIR]/contracts/ (3 files)
   [○] Research         Not created
+  [✓] Other            [FEATURE_DIR]/*.md (2 files)
 
 Checklists:
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
