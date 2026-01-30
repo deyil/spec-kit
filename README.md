@@ -95,6 +95,7 @@ uvx --from git+https://github.com/deyil/spec-kit.git specify init <PROJECT_NAME>
 Launch your AI assistant in the project directory. The `/speckit.*` commands are available in the assistant. Choose the path that matches your project's complexity and your preferred level of control:
 
 #### Option A: Quick Path (2-4 min)
+
 **Best for**: Clear requirements, prototypes, additional features or experienced users following established patterns.
 This path automatically uses or generates your project constitution and executes the full workflow with minimal interaction.
 
@@ -103,6 +104,7 @@ This path automatically uses or generates your project constitution and executes
 ```
 
 #### Option B: Guided Wizard (10-15 min)
+
 **Best for**: New projects, complex features, or when stakeholder review needed.
 This path orchestrates the complete workflow, including constitution generation, with interactive checkpoints.
 
@@ -111,6 +113,7 @@ This path orchestrates the complete workflow, including constitution generation,
 ```
 
 #### Option C: Step-by-Step (Full Control)
+
 **Best for**: Maximum control over every artifact and phase. Follow the sequential steps below.
 
 ### 3. Establish project principles (Step-by-Step only)
@@ -278,6 +281,7 @@ Streamlined commands for faster workflow:
 | `/speckit.status` | **Progress tracker** - Shows current workflow progress and next steps                        |
 
 **When to use which:**
+
 - `/speckit.build` - New projects, complex features, stakeholder review needed
 - `/speckit.quick` - Clear requirements, prototypes, additional features, experienced users following established patterns
 

@@ -70,7 +70,7 @@ You **MUST** consider the user input before proceeding (if not empty).
    - **If user says No/Wait/N**: End with summary and reminder
    - **If user says Checklist**: Prompt for checklist domain, run `/speckit.checklist`, then offer tasks
 
-   **Auto-continue flag**: If invoked with `--auto` flag in arguments (e.g., from `/speckit.build`), 
+   **Auto-continue flag**: If invoked with `--auto` flag in arguments (e.g., from `/speckit.build`),
    skip the prompt and automatically continue to tasks.
 
 ## Phases

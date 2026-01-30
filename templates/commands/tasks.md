@@ -98,7 +98,7 @@ You **MUST** consider the user input before proceeding (if not empty).
    - **If user selects C**: Run `/speckit.implement`
    - **If user selects D or no response**: End with summary
 
-   **Auto-continue flag**: If invoked with `--auto` flag (e.g., from `/speckit.build`), 
+   **Auto-continue flag**: If invoked with `--auto` flag (e.g., from `/speckit.build`),
    skip the prompt and continue to the next step in the workflow.
 
 Context for task generation: {ARGS}
